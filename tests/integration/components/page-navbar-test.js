@@ -22,5 +22,7 @@ module('Integration | Component | page-navbar', function(hooks) {
     await render(hbs`{{page-navbar}}`);
 
     assert.ok(find('.page-navbar .logo'), 'Logo exists on page navbar.');
+    assert.ok(find('.page-navbar .logo img'), 'Logo has an image inside.');
+    assert.ok(find('.page-navbar a.logo'), 'Logo is a link.');
   });
 });

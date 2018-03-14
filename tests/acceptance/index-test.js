@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, find } from '@ember/test-helpers';
+import { visit, currentURL, find, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 
 module('Acceptance | index', function(hooks) {
@@ -27,10 +27,13 @@ module('Acceptance | index', function(hooks) {
   });
 
   test('Check page navbar.', async function(assert) {
-    assert.expect(1);
+    assert.expect(2);
 
     await visit('/');
 
     assert.ok(find('#app-layout > header .page-navbar'), 'Navbar exists on page header.');
+
+    await click('.page-navbar a.logo');
+    assert.equal(currentURL(), '/', 'Click the navbar logo goes to homepage.');
   });
 });

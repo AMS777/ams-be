@@ -4,8 +4,12 @@
 }
 
 .page-navbar {
-  
+
   .logo {
-    max-height: 100%;
+    align-self: stretch; /* max-height: 100%; does not work */
+
+    img {
+      max-height: 100%;
+    }
   }
 }
