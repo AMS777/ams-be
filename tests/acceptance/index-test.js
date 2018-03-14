@@ -31,6 +31,6 @@ module('Acceptance | index', function(hooks) {
 
     await visit('/');
 
-    assert.ok(find('#app-layout > header md-toolbar'), 'Navbar exists on page header.');
+    assert.ok(find('#app-layout > header .page-navbar'), 'Navbar exists on page header.');
   });
 });
