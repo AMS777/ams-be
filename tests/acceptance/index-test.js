@@ -27,11 +27,10 @@ module('Acceptance | index', function(hooks) {
   });
 
   test('Check page navbar.', async function(assert) {
-    assert.expect(2);
+    assert.expect(1);
 
     await visit('/');
 
-    assert.ok(find('#app-layout > header > md-toolbar'), 'Navbar exists on page header.');
-    assert.ok(find('#app-layout > header > md-toolbar .logo'), 'Logo exists on page navbar.');
+    assert.ok(find('#app-layout > header md-toolbar'), 'Navbar exists on page header.');
   });
 });
