@@ -1,7 +1,30 @@
 # ams-be
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+**Disclaimer: This project is under development, intended functionality it's
+not yet finished.**
+
+This project is a quick-start boilerplate of the Javascript framework Ember.js to
+start a frontend project with some useful functionality out of the box like:
+- Header-body-footer page layout.
+- User register with validation.
+- User login with validation.
+- User reset password with validation.
+- Emailing.
+
+Recomended for API projects that implement the JSON API specification (http://jsonapi.org/).
+
+**This frontend project is matched with a backend project on PHP micro-framework
+Lumen** (yet on development).
+
+## Addons
+
+- ember-paper. Material Design for Ember.js using Ember.js syntax and components.
+-- ember-cli-sass. Installed by ember-paper.
+
+## Features
+
+- TDD. This project uses [Test Driven Development](https://www.agilealliance.org/glossary/tdd/)
+as development methodology.
 
 ## Prerequisites
 
