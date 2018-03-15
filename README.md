@@ -9,7 +9,8 @@ start a frontend project with some useful functionality out of the box like:
 - User register with validation.
 - User login with validation.
 - User reset password with validation.
-- Emailing.
+- Contact form page.
+- FAQ, Privacy and Terms pages and page footer links.
 
 Recomended for API projects that implement the JSON API specification (http://jsonapi.org/).
 
