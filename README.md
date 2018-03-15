@@ -21,9 +21,12 @@ Lumen** (yet on development).
 - ember-paper. Material Design for Ember.js using Ember.js syntax and components.
 http://miguelcobain.github.io/ember-paper/
 -- ember-cli-sass. Installed by ember-paper.
-- ember-test-selectors. Removes attributes starting with "data-test-" from HTML
+- ember-test-selectors. Removes attributes starting with `data-test-` from HTML
 tags in templates for production builds.
 https://github.com/simplabs/ember-test-selectors
+- ember-paper-link. Extends ember's built in `link-to` helper and adds
+`paper-button` styling and functionality.
+https://github.com/Subtletree/ember-paper-link
 
 
 ## Features

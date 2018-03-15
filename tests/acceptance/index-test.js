@@ -45,9 +45,9 @@ module('Acceptance | index', function(hooks) {
     await visit('/');
 
     const pageFooterSelector = '[data-test-app-layout-footer] ';
-    await click(pageFooterSelector + '[data-test-page-footer-copyright]');
-    assert.equal(currentURL(), '/', 'Click the app name goes to homepage.');
     await click(pageFooterSelector + '[data-test-page-footer-contact]');
     assert.equal(currentURL(), '/contact', 'Click the contact link goes to the contact page.');
+    await click(pageFooterSelector + '[data-test-page-footer-copyright]');
+    assert.equal(currentURL(), '/', 'Click the app name goes to homepage.');
   });
 });
