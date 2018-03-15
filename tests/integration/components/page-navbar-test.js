@@ -21,8 +21,8 @@ module('Integration | Component | page-navbar', function(hooks) {
 
     await render(hbs`{{page-navbar}}`);
 
-    assert.ok(find('.page-navbar .logo'), 'Logo exists on page navbar.');
-    assert.ok(find('.page-navbar .logo img'), 'Logo has an image inside.');
-    assert.ok(find('.page-navbar a.logo'), 'Logo is a link.');
+    const navbarLogoSelector = '[data-test-page-navbar] [data-test-page-navbar-logo] ';
+    assert.ok(find(navbarLogoSelector), 'Logo exists on page navbar.');
+    assert.ok(find(navbarLogoSelector + 'img'), 'Logo has an image inside.');
   });
 });

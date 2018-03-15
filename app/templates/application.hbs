@@ -1,16 +1,16 @@
 
-<div id="app-layout" class="layout-column layout-align-space-between-stretch">
+<div id="app-layout" class="layout-column layout-align-space-between-stretch" data-test-app-layout>
 
-  <header>
+  <header data-test-app-layout-header>
     {{page-navbar}}
   </header>
 
-  <main class="layout-column layout-align-space-around-center">
+  <main class="layout-column layout-align-space-around-center" data-test-app-layout-body>
     test body
     {{outlet}}
   </main>
 
-  <footer>
+  <footer data-test-app-layout-footer>
     {{page-footer}}
   </footer>
 

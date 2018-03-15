@@ -20,10 +20,11 @@ module('Acceptance | index', function(hooks) {
 
     await visit('/');
 
-    assert.ok(find('#app-layout'), 'App layout exists.');
-    assert.ok(find('#app-layout > header'), 'Header exists in app layout.');
-    assert.ok(find('#app-layout > main'), 'Body exists in app layout.');
-    assert.ok(find('#app-layout > footer'), 'Footer exists in app layout.');
+    const appLayoutSelector = '[data-test-app-layout] ';
+    assert.ok(find(appLayoutSelector), 'App layout exists.');
+    assert.ok(find(appLayoutSelector + ' > [data-test-app-layout-header]'), 'Header exists in app layout.');
+    assert.ok(find(appLayoutSelector + ' > [data-test-app-layout-body]'), 'Body exists in app layout.');
+    assert.ok(find(appLayoutSelector + ' > [data-test-app-layout-footer]'), 'Footer exists in app layout.');
   });
 
   test('Check page header.', async function(assert) {
@@ -31,9 +32,10 @@ module('Acceptance | index', function(hooks) {
 
     await visit('/');
 
-    assert.ok(find('#app-layout > header .page-navbar'), 'Navbar exists on page header.');
+    const headerNavbarSelector = '[data-test-app-layout-header] [data-test-page-navbar] ';
+    assert.ok(find(headerNavbarSelector), 'Navbar exists on page header.');
 
-    await click('#app-layout > header .page-navbar a.logo');
+    await click(headerNavbarSelector + '[data-test-page-navbar-logo]');
     assert.equal(currentURL(), '/', 'Click the navbar logo goes to homepage.');
   });
 
@@ -42,7 +44,7 @@ module('Acceptance | index', function(hooks) {
 
     await visit('/');
 
-    await click('#app-layout > footer a');
+    await click('[data-test-app-layout-footer] [data-test-page-footer-copyright]');
     assert.equal(currentURL(), '/', 'Click the app name goes to homepage.');
   });
 });
