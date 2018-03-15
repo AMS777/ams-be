@@ -19,9 +19,11 @@ Lumen** (yet on development).
 ## Addons
 
 - ember-paper. Material Design for Ember.js using Ember.js syntax and components.
+http://miguelcobain.github.io/ember-paper/
 -- ember-cli-sass. Installed by ember-paper.
 - ember-test-selectors. Removes attributes starting with "data-test-" from HTML
 tags in templates for production builds.
+https://github.com/simplabs/ember-test-selectors
 
 
 ## Features
