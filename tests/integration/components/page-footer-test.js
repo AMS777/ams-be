@@ -15,5 +15,9 @@ module('Integration | Component | page-footer', function(hooks) {
 
     const copyrightText = new Date().getFullYear() + ' © ' + CONFIG.TEXTS.appName;
     assert.equal(find('[data-test-page-footer-copyright]').textContent.trim(), copyrightText, 'Footer has year, copyright and app name.');
+    assert.ok(find('[data-test-page-footer-contact]'), 'Contact link exists.');
+    assert.ok(find('[data-test-page-footer-faq]'), 'FAQ link exists.');
+    assert.ok(find('[data-test-page-footer-privacy]'), 'Privacy link exists.');
+    assert.ok(find('[data-test-page-footer-terms]'), 'Terms link exists.');
   });
 });

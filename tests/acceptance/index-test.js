@@ -40,13 +40,19 @@ module('Acceptance | index', function(hooks) {
   });
 
   test('Check page footer.', async function(assert) {
-    assert.expect(2);
+    assert.expect(5);
 
     await visit('/');
 
     const pageFooterSelector = '[data-test-app-layout-footer] ';
+    await click(pageFooterSelector + '[data-test-page-footer-faq]');
+    assert.equal(currentURL(), '/faq', 'Click the FAQ link goes to the FAQ page.');
     await click(pageFooterSelector + '[data-test-page-footer-contact]');
     assert.equal(currentURL(), '/contact', 'Click the contact link goes to the contact page.');
+    await click(pageFooterSelector + '[data-test-page-footer-privacy]');
+    assert.equal(currentURL(), '/privacy', 'Click the privacy link goes to the privacy page.');
+    await click(pageFooterSelector + '[data-test-page-footer-terms]');
+    assert.equal(currentURL(), '/terms', 'Click the terms link goes to the terms page.');
     await click(pageFooterSelector + '[data-test-page-footer-copyright]');
     assert.equal(currentURL(), '/', 'Click the app name goes to homepage.');
   });
