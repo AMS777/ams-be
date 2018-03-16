@@ -1,1 +1,16 @@
-{{outlet}}
+
+<h1>Contact Message</h1>
+
+{{#paper-form class="layout-column layout-align-space-around-stretch"
+  data-test-contact-form=true as |form|}}
+    {{form.input label="Name" value=name onChange=(action (mut name)) icon="person"
+      required=true data-test-name=true}}
+    {{form.input label="Email" type="email" value=email onChange=(action (mut email))
+      icon="email" required=true data-test-email=true}}
+    {{form.input label="Message" textarea=true block=true maxlength=250 passThru=(hash rows=5 maxRows=5)
+      value=message onChange=(action (mut message)) icon="subject" required=true
+      data-test-message=true}}
+    {{#form.submit-button raised=true primary=true data-test-submit=true}}
+      Send message
+    {{/form.submit-button}}
+{{/paper-form}}
