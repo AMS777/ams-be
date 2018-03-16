@@ -12,37 +12,33 @@ module('Acceptance | contact', function(hooks) {
   });
 
   test('Contact form exists', async function(assert) {
-    assert.expect(5);
-
     await visit('/contact');
 
-    // "ts": "test selector"
-    const tsContactForm = '[data-test-contact-form] ';
-    assert.ok(find(tsContactForm), 'Contact form exists.');
-    assert.ok(find(tsContactForm + '[data-test-name]'), 'Contact form has name field.');
-    assert.ok(find(tsContactForm + '[data-test-email]'), 'Contact form has email field.');
-    assert.ok(find(tsContactForm + '[data-test-message]'), 'Contact form has message field.');
-    assert.ok(find(tsContactForm + '[data-test-submit]'), 'Contact form has submit button.');
+    // "pts": "parent test selector"
+    const pts = '[data-test-contact-form] ';
+
+    assert.dom(pts).exists('Contact form exists.');
+    assert.dom(pts + '[data-test-name]').exists('Contact form has name field.');
+    assert.dom(pts + '[data-test-email]').exists('Contact form has email field.');
+    assert.dom(pts + '[data-test-message]').exists('Contact form has message field.');
+    assert.dom(pts + '[data-test-submit]').exists('Contact form has submit button.');
   });
 
   test('Validate contact form', async function(assert) {
     await visit('/contact');
 
-    // "ts": "test selector"
-    const tsContactForm = '[data-test-contact-form] ';
+    // "pts": "parent test selector"
+    const pts = '[data-test-contact-form] ';
 
     const requiredMessage = 'This is required.';
-    await click(tsContactForm + '[data-test-submit]');
-    assert.equal(find(tsContactForm + '[data-test-name] .paper-input-error').textContent.trim(),
-      requiredMessage, 'Validate empty name.');
-    assert.equal(find(tsContactForm + '[data-test-email] .paper-input-error').textContent.trim(),
-      requiredMessage, 'Validate empty email.');
-    assert.equal(find(tsContactForm + '[data-test-message] .paper-input-error').textContent.trim(),
-      requiredMessage, 'Validate empty message.');
+    await click(pts + '[data-test-submit]');
+    assert.dom(pts + '[data-test-name] .paper-input-error').hasText(requiredMessage, 'Validate empty name.');
+    assert.dom(pts + '[data-test-email] .paper-input-error').hasText(requiredMessage, 'Validate empty email.');
+    assert.dom(pts + '[data-test-message] .paper-input-error').hasText(requiredMessage, 'Validate empty message.');
 
-    await fillIn(tsContactForm + '[data-test-email] input', 'invalid-email-format');
-    await click(tsContactForm + '[data-test-submit]');
-    assert.ok(find(tsContactForm + '[data-test-email].md-focused'), 'Validate valid email format.');
+    await fillIn(pts + '[data-test-email] input', 'invalid-email-format');
+    await click(pts + '[data-test-submit]');
+    assert.dom(pts + '[data-test-email] input').isFocused('Validate valid email format.');
   });
 
   skip('Submit contact form', async function(assert) {

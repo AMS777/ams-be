@@ -28,6 +28,8 @@ https://github.com/simplabs/ember-test-selectors
 - ember-paper-link. Extends ember's built in `link-to` helper and adds
 `paper-button` styling and functionality.
 https://github.com/Subtletree/ember-paper-link
+- qunit-dom. Specific test asserts for DOM elements.
+https://github.com/simplabs/qunit-dom
 
 ## Features
 
