@@ -1,12 +1,12 @@
 
 #app-layout {
-    min-height: 100vh;
+  min-height: 100vh;
 
-    .app-layout-body {
-      max-width: 1200px;
-      margin: auto; /* center the body element on large displays */
-      padding: 2em;
-    }
+  .app-layout-body {
+    max-width: 1200px;
+    margin: auto; /* center the body element on large displays */
+    padding: 2em;
+  }
 }
 
 .page-navbar {
@@ -18,4 +18,8 @@
       max-height: 100%;
     }
   }
+}
+
+button[type=submit] {
+  align-self: center;
 }
