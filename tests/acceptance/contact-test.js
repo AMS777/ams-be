@@ -1,5 +1,5 @@
-import { module, test, skip } from 'qunit';
-import { visit, currentURL, find, click, fillIn } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { visit, currentURL, click, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 
 module('Acceptance | contact', function(hooks) {
@@ -41,15 +41,24 @@ module('Acceptance | contact', function(hooks) {
     assert.dom(pts + '[data-test-email] input').isFocused('Validate valid email format.');
   });
 
-  skip('Submit contact form', async function(assert) {
+  test('Submit contact form', async function(assert) {
     await visit('/contact');
 
-    // "ts": "test selector"
-    const tsContactForm = '[data-test-contact-form] ';
+    // "pts": "parent test selector"
+    const pts = '[data-test-contact-form] ';
 
-    await fillIn(tsContactForm + '[data-test-name] input', 'Test Name');
-    await fillIn(tsContactForm + '[data-test-email] input', 'valid@email.format');
-    await fillIn(tsContactForm + '[data-test-message] textarea', 'Test message.');
-    await click(tsContactForm + '[data-test-submit]');
+    await fillIn(pts + '[data-test-name] input', 'Test Name');
+    await fillIn(pts + '[data-test-email] input', 'valid@email.format');
+    await fillIn(pts + '[data-test-message] textarea', 'Test message.');
+    await click(pts + '[data-test-submit]');
+    assert.dom(pts).doesNotExist('Contact form removed.');
+    assert.dom('[data-test-confirmation-message]').includesText('success', 'Show confirmation message.');
+
+    await visit('/');
+    await visit('/contact');
+    assert.dom(pts).exists('Contact form shows up when the page is entered again.');
+    assert.dom(pts + '[data-test-name] input').hasNoValue('Name field is empty.');
+    assert.dom(pts + '[data-test-email] input').hasNoValue('Email field is empty.');
+    assert.dom(pts + '[data-test-message] textarea').hasNoValue('Message field is empty.');
   });
 });

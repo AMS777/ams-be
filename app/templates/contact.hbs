@@ -1,8 +1,16 @@
 
 <h1>Contact Message</h1>
 
-{{#paper-form class="layout-column layout-align-space-around-stretch"
-  data-test-contact-form=true as |form|}}
+{{#if contactMessageSentSuccessfully}}
+
+  <div data-test-confirmation-message=true>
+    Message sent successfully.
+  </div>
+
+{{else}}
+
+  {{#paper-form class="layout-column layout-align-space-around-stretch"
+    onSubmit=(action "submitContactMessage") data-test-contact-form=true as |form|}}
     {{form.input label="Name" value=name onChange=(action (mut name)) icon="person"
       required=true data-test-name=true}}
     {{form.input label="Email" type="email" value=email onChange=(action (mut email))
@@ -13,4 +21,6 @@
     {{#form.submit-button raised=true primary=true data-test-submit=true}}
       Send message
     {{/form.submit-button}}
-{{/paper-form}}
+  {{/paper-form}}
+
+{{/if}}
