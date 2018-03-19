@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, click, fillIn } from '@ember/test-helpers';
+import { visit, currentURL, click, fillIn, pauseTest } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import FakeServer, { stubRequest } from 'ember-cli-fake-server';
 
@@ -47,7 +47,7 @@ module('Acceptance | contact', function(hooks) {
 
     await fillIn(pts + '[data-test-email] input', 'invalid-email-format');
     await click(pts + '[data-test-submit]');
-    assert.dom(pts + '[data-test-email] input').isFocused('Validate valid email format.');
+    assert.dom(pts + '[data-test-email] input').isFocused('Validate email format.');
   });
 
   test('Submit contact form - Success', async function(assert) {
@@ -83,19 +83,55 @@ module('Acceptance | contact', function(hooks) {
     // "pts": "parent test selector"
     const pts = '[data-test-contact-form] ';
 
+    stubRequest('post', '/contact-message', (request) => {
+      request.error({ errors: [{ 'code': 'empty_data' }]});
+    });
+
     await fillIn(pts + '[data-test-name] input', 'Test Name');
     await fillIn(pts + '[data-test-email] input', 'valid@email.format');
     await fillIn(pts + '[data-test-message] textarea', 'Test message.');
-
-    stubRequest('post', '/contact-message', (request) => {
-      request.error({error: {email: 'is invalid'}});
-    });
-
     await click(pts + '[data-test-submit]');
 
     assert.dom(pts).exists('Contact form is not hidden.');
     assert.dom(pts + '[data-test-name] input').hasValue('Test Name', 'Name field is not empty.');
     assert.dom(pts + '[data-test-email] input').hasValue('valid@email.format', 'Email field is not empty.');
     assert.dom(pts + '[data-test-message] textarea').hasValue('Test message.', 'Message field is not empty.');
+
+    assert.dom('md-dialog').exists('Data empty dialog shown.');
+    assert.dom('md-dialog md-toolbar').includesText('Data empty', 'Data empty dialog title.');
+    assert.dom('md-dialog md-dialog-content').includesText('Some data are empty.', 'Data empty message dialog.');
+    await click('md-dialog md-toolbar button');
+
+    stubRequest('post', '/contact-message', (request) => {
+      request.error({ errors: [{ 'code': 'invalid_email_address' }]});
+    });
+    await click(pts + '[data-test-submit]');
+    assert.dom('md-dialog').exists('Invalid email dialog shown.');
+    assert.dom('md-dialog md-toolbar').includesText('Invalid email address', 'Invalid email dialog title.');
+    await click('md-dialog md-toolbar button');
+
+    stubRequest('post', '/contact-message', (request) => {
+      request.error({ errors: [{ 'code': 'sendmail_process_error' }]});
+    });
+    await click(pts + '[data-test-submit]');
+    assert.dom('md-dialog').exists('Sendmail process error dialog shown.');
+    assert.dom('md-dialog md-toolbar').includesText('Sendmail process error', 'Sendmail process error dialog title.');
+    await click('md-dialog md-toolbar button');
+
+    stubRequest('post', '/contact-message', (request) => {
+      request.error({ errors: [{ 'code': 'error_sending_email' }]});
+    });
+    await click(pts + '[data-test-submit]');
+    assert.dom('md-dialog').exists('Error sending email dialog shown.');
+    assert.dom('md-dialog md-toolbar').includesText('Email send error', 'Error sending email dialog title.');
+    await click('md-dialog md-toolbar button');
+
+    stubRequest('post', '/contact-message', (request) => {
+      request.error();
+    });
+    await click(pts + '[data-test-submit]');
+    assert.dom('md-dialog').exists('Generic error dialog shown.');
+    assert.dom('md-dialog md-toolbar').includesText('Contact message error', 'Generic error dialog title.');
+    await click('md-dialog md-toolbar button');
   });
 });

@@ -1,0 +1,25 @@
+
+{{#if showDialog}}
+
+    {{#paper-dialog class="flex-77"}}
+      {{#paper-toolbar}}
+        {{#paper-toolbar-tools}}
+            {{dialog-title dialogTitle=dialogTitle titleIcon=titleIcon}}
+            <span class="flex"></span>
+            {{#paper-button iconButton=true onClick=(action "closeDialog")}}
+                {{paper-icon icon="close"}}
+            {{/paper-button}}
+        {{/paper-toolbar-tools}}
+      {{/paper-toolbar}}
+
+      {{#paper-dialog-content}}
+          {{yield}}
+      {{/paper-dialog-content}}
+
+      {{#paper-dialog-actions class="layout-row"}}
+        <span class="flex"></span>
+        {{#paper-button onClick=(action "closeDialog")}}{{closeButtonCaption}}{{/paper-button}}
+      {{/paper-dialog-actions}}
+    {{/paper-dialog}}
+
+{{/if}}

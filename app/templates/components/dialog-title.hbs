@@ -1,0 +1,15 @@
+
+<h2 class="layout-row layout-align-start-center layout-margin">
+  {{#if displayErrorIcon}}
+    {{paper-icon icon="error"}}
+  {{else if displaySuccessIcon}}
+    {{paper-icon icon="check-circle"}}
+  {{else if displayQuestionIcon}}
+    {{paper-icon icon="help"}}
+  {{else if displayInfoIcon}}
+    {{paper-icon icon="info"}}
+  {{/if}}
+  <span>
+    {{dialogTitle}}
+  </span>
+</h2>

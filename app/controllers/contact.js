@@ -10,6 +10,11 @@ export default Controller.extend({
   message: '',
 
   contactMessageSentSuccessfully: false,
+  showDialog_ContactMessageDataEmpty: false,
+  showDialog_InvalidEmailAddress: false,
+  showDialog_SendmailProcessError: false,
+  showDialog_EmailSendError: false,
+  showDialog_ContactMessageError: false,
 
   actions: {
     submitContactMessage() {
@@ -49,6 +54,18 @@ export default Controller.extend({
         errorCode = payload.errors[0].code;
       } catch (e) {
         // content on catch block to fix Ember.js build
+      }
+
+      if (errorCode === 'empty_data') {
+        this.set('showDialog_ContactMessageDataEmpty', true);
+      } else if (errorCode === 'invalid_email_address') {
+        this.set('showDialog_InvalidEmailAddress', true);
+      } else if (errorCode === 'sendmail_process_error') {
+        this.set('showDialog_SendmailProcessError', true);
+      } else if (errorCode === 'error_sending_email') {
+        this.set('showDialog_EmailSendError', true);
+      } else {
+        this.set('showDialog_ContactMessageError', true);
       }
     });
   },
