@@ -82,6 +82,10 @@ module('Acceptance | contact', function(hooks) {
 
     // "pts": "parent test selector"
     const pts = '[data-test-contact-form] ';
+    const sDialog = 'md-dialog';
+    const sDialogToolbar = sDialog + ' md-toolbar';
+    const sDialogContent = sDialog + ' md-dialog-content';
+    const sDialogCloseButton = sDialogToolbar + ' button';
 
     stubRequest('post', '/contact-message', (request) => {
       request.error({ errors: [{ 'code': 'empty_data' }]});
@@ -97,41 +101,41 @@ module('Acceptance | contact', function(hooks) {
     assert.dom(pts + '[data-test-email] input').hasValue('valid@email.format', 'Email field is not empty.');
     assert.dom(pts + '[data-test-message] textarea').hasValue('Test message.', 'Message field is not empty.');
 
-    assert.dom('md-dialog').exists('Data empty dialog shown.');
-    assert.dom('md-dialog md-toolbar').includesText('Data empty', 'Data empty dialog title.');
-    assert.dom('md-dialog md-dialog-content').includesText('Some data are empty.', 'Data empty message dialog.');
-    await click('md-dialog md-toolbar button');
+    assert.dom(sDialog).exists('Data empty dialog shown.');
+    assert.dom(sDialogToolbar).includesText('Data empty', 'Data empty dialog title.');
+    assert.dom(sDialogContent).includesText('Some data are empty.', 'Data empty message dialog.');
+    await click(sDialogCloseButton);
 
     stubRequest('post', '/contact-message', (request) => {
       request.error({ errors: [{ 'code': 'invalid_email_address' }]});
     });
     await click(pts + '[data-test-submit]');
-    assert.dom('md-dialog').exists('Invalid email dialog shown.');
-    assert.dom('md-dialog md-toolbar').includesText('Invalid email address', 'Invalid email dialog title.');
-    await click('md-dialog md-toolbar button');
+    assert.dom(sDialog).exists('Invalid email dialog shown.');
+    assert.dom(sDialogToolbar).includesText('Invalid email address', 'Invalid email dialog title.');
+    await click(sDialogCloseButton);
 
     stubRequest('post', '/contact-message', (request) => {
       request.error({ errors: [{ 'code': 'sendmail_process_error' }]});
     });
     await click(pts + '[data-test-submit]');
-    assert.dom('md-dialog').exists('Sendmail process error dialog shown.');
-    assert.dom('md-dialog md-toolbar').includesText('Sendmail process error', 'Sendmail process error dialog title.');
-    await click('md-dialog md-toolbar button');
+    assert.dom(sDialog).exists('Sendmail process error dialog shown.');
+    assert.dom(sDialogToolbar).includesText('Sendmail process error', 'Sendmail process error dialog title.');
+    await click(sDialogCloseButton);
 
     stubRequest('post', '/contact-message', (request) => {
       request.error({ errors: [{ 'code': 'error_sending_email' }]});
     });
     await click(pts + '[data-test-submit]');
-    assert.dom('md-dialog').exists('Error sending email dialog shown.');
-    assert.dom('md-dialog md-toolbar').includesText('Email send error', 'Error sending email dialog title.');
-    await click('md-dialog md-toolbar button');
+    assert.dom(sDialog).exists('Error sending email dialog shown.');
+    assert.dom(sDialogToolbar).includesText('Email send error', 'Error sending email dialog title.');
+    await click(sDialogCloseButton);
 
     stubRequest('post', '/contact-message', (request) => {
       request.error();
     });
     await click(pts + '[data-test-submit]');
-    assert.dom('md-dialog').exists('Generic error dialog shown.');
-    assert.dom('md-dialog md-toolbar').includesText('Contact message error', 'Generic error dialog title.');
-    await click('md-dialog md-toolbar button');
+    assert.dom(sDialog).exists('Generic error dialog shown.');
+    assert.dom(sDialogToolbar).includesText('Contact message error', 'Generic error dialog title.');
+    await click(sDialogCloseButton);
   });
 });
