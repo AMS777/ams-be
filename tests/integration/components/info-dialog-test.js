@@ -7,20 +7,22 @@ module('Integration | Component | info-dialog', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
+
+    const sDialog = 'md-dialog';
 
     await render(hbs`{{info-dialog}}`);
+    assert.dom(sDialog).doesNotExist('There is no dialog.');
 
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
+    this.set('testShowDialog', false);
     await render(hbs`
-      {{#info-dialog}}
-        template block text
+      {{#info-dialog showDialog=testShowDialog dialogTitle="Test title"}}
+        Test dialog content.
       {{/info-dialog}}
     `);
+    assert.dom(sDialog).doesNotExist('There is no dialog.');
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    this.set('testShowDialog', true);
+    assert.dom(sDialog).exists('There is  dialog.');
+    assert.dom(sDialog + ' md-dialog-content').hasText('Test dialog content.', 'Test dialog content.');
   });
 });

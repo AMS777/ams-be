@@ -7,20 +7,9 @@ module('Integration | Component | dialog-title', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`{{dialog-title}}`);
+    await render(hbs`{{dialog-title dialogTitle="Test title"}}`);
 
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#dialog-title}}
-        template block text
-      {{/dialog-title}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.dom(this.element).hasText('Test title', 'Test title.');
   });
 });
