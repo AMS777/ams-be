@@ -31,16 +31,16 @@ export default Controller.extend({
 
   handleSubmitContactMessage() {
 
-    const jsonApi = {data: {'data': {
-      'type': 'contactMessage',
-      'attributes': {
-        'name': this.get('name'),
-        'email': this.get('email'),
-        'message': this.get('message'),
+    const jsonApi = JSON.stringify({ data: {
+      type: 'contactMessage',
+      attributes: {
+        name: this.get('name'),
+        email: this.get('email'),
+        message: this.get('message'),
       }
-    }}};
+    }});
 
-    this.get('ajax').post('contact-message', jsonApi).then(() => {
+    this.get('ajax').post('contact-message', { data: jsonApi }).then(() => {
       this.setProperties({
         'contactMessageSentSuccessfully': true,
         'name': '',

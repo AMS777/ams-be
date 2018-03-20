@@ -61,7 +61,14 @@ module('Acceptance | contact', function(hooks) {
     await fillIn(pts + '[data-test-message] textarea', 'Test message.');
 
     stubRequest('post', '/contact-message', (request) => {
-      request.ok({user: {id: 1, name: 'the user'}});
+      const data = request.json().data;
+      if (data.type == 'contactMessage' && data.attributes.name == 'Test Name'
+        && data.attributes.email == 'valid@email.format' && data.attributes.message == 'Test message.'
+      ) {
+        request.ok();
+      } else {
+        request.error();
+      }
     });
 
     await click(pts + '[data-test-submit]');
