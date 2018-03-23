@@ -28,16 +28,20 @@ export default Controller.extend({
 
   handleSubmitContactMessage() {
 
-    const jsonApi = JSON.stringify({ data: {
+    const jsonApi = { data: {
       type: 'contactMessage',
       attributes: {
         name: this.get('name'),
         email: this.get('email'),
         message: this.get('message'),
       }
-    }});
+    }};
 
-    this.get('ajax').post('contact-message', { data: jsonApi }).then(() => {
+    this.get('ajax').post('contact-message', {
+      data: jsonApi,
+      dataType: 'json',
+      contentType: 'application/json; charset=utf-8',
+    }).then(() => {
       this.setProperties({
         'contactMessageSentSuccessfully': true,
         'name': '',
