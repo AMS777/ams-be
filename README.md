@@ -19,19 +19,19 @@ Lumen** (yet on development).
 
 ## Addons
 
-- ember-paper. Material Design for Ember.js using Ember.js syntax and components.
-http://miguelcobain.github.io/ember-paper/
+- ember-paper. Material Design for Ember.js using Ember.js syntax and components.  
+  http://miguelcobain.github.io/ember-paper/
   - ember-cli-sass. Installed by ember-paper.
 - ember-test-selectors. Removes attributes starting with `data-test-` from HTML
-tags in templates for production builds.
-https://github.com/simplabs/ember-test-selectors
+tags in templates for production builds. 
+  https://github.com/simplabs/ember-test-selectors
 - ember-paper-link. Extends ember's built in `link-to` helper and adds
-`paper-button` styling and functionality.
-https://github.com/Subtletree/ember-paper-link
-- qunit-dom. Specific test asserts for DOM elements.
-https://github.com/simplabs/qunit-dom
-- ember-cli-fake-server. Makes it extremely simple to stub ajax requests for testing.
-https://github.com/201-created/ember-cli-fake-server
+`paper-button` styling and functionality.  
+  https://github.com/Subtletree/ember-paper-link
+- qunit-dom. Specific test asserts for DOM elements.  
+  https://github.com/simplabs/qunit-dom
+- ember-cli-fake-server. Makes it extremely simple to stub ajax requests for testing.  
+  https://github.com/201-created/ember-cli-fake-server
 
 ## Features
 
