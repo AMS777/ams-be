@@ -1,0 +1,13 @@
+
+<h1>Login</h1>
+
+{{#paper-form class="layout-column layout-align-space-around-stretch"
+  data-test-login-form=true as |form|}}
+  {{form.input label="Email" type="email" value=email onChange=(action (mut email))
+    icon="email" required=true data-test-email=true}}
+  {{form.input label="Password" type="password" value=password onChange=(action (mut password))
+    icon="lock" required=true data-test-password=true}}
+  {{#form.submit-button raised=true primary=true data-test-submit=true}}
+    Login
+  {{/form.submit-button}}
+{{/paper-form}}

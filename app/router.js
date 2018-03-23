@@ -11,6 +11,8 @@ Router.map(function() {
   this.route('faq');
   this.route('privacy');
   this.route('terms');
+  this.route('register');
+  this.route('login');
 });
 
 export default Router;
