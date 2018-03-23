@@ -95,7 +95,7 @@ module('Acceptance | contact', function(hooks) {
     const sDialogCloseButton = sDialogToolbar + ' button';
 
     stubRequest('post', '/contact-message', (request) => {
-      request.error({ errors: [{ 'code': 'empty_data' }]});
+      request.error({"errors":[{"source":{"parameter":"email"},"title":"Address in mailbox given [invalid-email] does not comply with RFC 2822, 3.6.2."}],"jsonapi":{"version":"1.0"}});
     });
 
     await fillIn(pts + '[data-test-name] input', 'Test Name');
@@ -108,33 +108,27 @@ module('Acceptance | contact', function(hooks) {
     assert.dom(pts + '[data-test-email] input').hasValue('valid@email.format', 'Email field is not empty.');
     assert.dom(pts + '[data-test-message] textarea').hasValue('Test message.', 'Message field is not empty.');
 
-    assert.dom(sDialog).exists('Data empty dialog shown.');
-    assert.dom(sDialogToolbar).includesText('Data empty', 'Data empty dialog title.');
-    assert.dom(sDialogContent).includesText('Some data are empty.', 'Data empty message dialog.');
+    assert.dom(sDialog).exists('Error message dialog shown.');
+    assert.dom(sDialogToolbar).includesText('Contact message error', 'Error message dialog title.');
+    assert.dom(sDialogContent).includesText(
+      'Address in mailbox given [invalid-email] does not comply with RFC 2822, 3.6.2.',
+      'Error message message dialog.'
+    );
     await click(sDialogCloseButton);
 
     stubRequest('post', '/contact-message', (request) => {
-      request.error({ errors: [{ 'code': 'invalid_email_address' }]});
+      request.error({"errors":[
+        {"source":{"parameter":"name"},"title":"The name field is required."},
+        {"source":{"parameter":"email"},"title":"The email field is required."},
+        {"source":{"parameter":"message"},"title":"The message field is required."}
+      ],"jsonapi":{"version":"1.0"}});
     });
     await click(pts + '[data-test-submit]');
-    assert.dom(sDialog).exists('Invalid email dialog shown.');
-    assert.dom(sDialogToolbar).includesText('Invalid email address', 'Invalid email dialog title.');
-    await click(sDialogCloseButton);
-
-    stubRequest('post', '/contact-message', (request) => {
-      request.error({ errors: [{ 'code': 'sendmail_process_error' }]});
-    });
-    await click(pts + '[data-test-submit]');
-    assert.dom(sDialog).exists('Sendmail process error dialog shown.');
-    assert.dom(sDialogToolbar).includesText('Sendmail process error', 'Sendmail process error dialog title.');
-    await click(sDialogCloseButton);
-
-    stubRequest('post', '/contact-message', (request) => {
-      request.error({ errors: [{ 'code': 'error_sending_email' }]});
-    });
-    await click(pts + '[data-test-submit]');
-    assert.dom(sDialog).exists('Error sending email dialog shown.');
-    assert.dom(sDialogToolbar).includesText('Email send error', 'Error sending email dialog title.');
+    assert.dom(sDialog).exists('Error message dialog shown when multiple errors returned.');
+    assert.dom(sDialogContent).includesText(
+      'The name field is required.',
+      'Show first error message when there are multiple errors.'
+    );
     await click(sDialogCloseButton);
 
     stubRequest('post', '/contact-message', (request) => {
@@ -142,7 +136,10 @@ module('Acceptance | contact', function(hooks) {
     });
     await click(pts + '[data-test-submit]');
     assert.dom(sDialog).exists('Generic error dialog shown.');
-    assert.dom(sDialogToolbar).includesText('Contact message error', 'Generic error dialog title.');
+    assert.dom(sDialogContent).includesText(
+      'The contact message cannot be sent.',
+      'Generic error dialog title.'
+    );
     await click(sDialogCloseButton);
   });
 });

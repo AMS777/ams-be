@@ -8,13 +8,10 @@ export default Controller.extend({
   name: '',
   email: '',
   message: '',
+  errorMessage: '',
 
   contactMessageSentSuccessfully: false,
-  showDialog_ContactMessageDataEmpty: false,
-  showDialog_InvalidEmailAddress: false,
-  showDialog_SendmailProcessError: false,
-  showDialog_EmailSendError: false,
-  showDialog_ContactMessageError: false,
+  showDialog_ErrorMessage: false,
 
   actions: {
     submitContactMessage() {
@@ -48,25 +45,14 @@ export default Controller.extend({
         'message': '',
       });
     }).catch(({ payload }) => {
-
-      let errorCode = '';
       try {
-        errorCode = payload.errors[0].code;
+        // only first error message is shown, multiple error messages not
+        // expected often
+        this.set('errorMessage', payload.errors[0].title);
       } catch (e) {
-        // content on catch block to fix Ember.js build
+        this.set('errorMessage', 'The contact message cannot be sent.');
       }
-
-      if (errorCode === 'empty_data') {
-        this.set('showDialog_ContactMessageDataEmpty', true);
-      } else if (errorCode === 'invalid_email_address') {
-        this.set('showDialog_InvalidEmailAddress', true);
-      } else if (errorCode === 'sendmail_process_error') {
-        this.set('showDialog_SendmailProcessError', true);
-      } else if (errorCode === 'error_sending_email') {
-        this.set('showDialog_EmailSendError', true);
-      } else {
-        this.set('showDialog_ContactMessageError', true);
-      }
+      this.set('showDialog_ErrorMessage', true);
     });
   },
 });

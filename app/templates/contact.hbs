@@ -25,54 +25,9 @@
 
 {{/if}}
 
-{{#info-dialog showDialog=showDialog_ContactMessageDataEmpty dialogTitle="Data empty" titleIcon="error"}}
-  <p>
-    Some data are empty.
-  </p>
-  <p>
-    Please fill all fields in.
-  </p>
-{{/info-dialog}}
-
-{{#info-dialog showDialog=showDialog_InvalidEmailAddress dialogTitle="Invalid email address" titleIcon="error"}}
+{{#info-dialog showDialog=showDialog_ErrorMessage dialogTitle="Contact message error"}}
     <p>
-        The email "<strong>{{email}}</strong>" is an invalid email address.
-    </p>
-    <p>
-        Please type in a valid email address.
-    </p>
-    <p>
-        If the problem persists, please contact the administrator other way.
-    </p>
-{{/info-dialog}}
-
-{{#info-dialog showDialog=showDialog_SendmailProcessError dialogTitle="Sendmail process error" titleIcon="error"}}
-    <p>
-        The contact message cannot be sent because of an error with the sendmail process.
-    </p>
-    <p>
-        Please try again later.
-    </p>
-    <p>
-        If the problem persists, please contact the administrator other way.
-    </p>
-{{/info-dialog}}
-
-{{#info-dialog showDialog=showDialog_EmailSendError dialogTitle="Email send error" titleIcon="error"}}
-    <p>
-        The contact message cannot be sent because of an error sending the email.
-    </p>
-    <p>
-        Please try again later.
-    </p>
-    <p>
-        If the problem persists, please contact the administrator other way.
-    </p>
-{{/info-dialog}}
-
-{{#info-dialog showDialog=showDialog_ContactMessageError dialogTitle="Contact message error"}}
-    <p>
-      The contact message cannot be sent.
+      {{errorMessage}}
     </p>
     <p>
       Please try again later.
