@@ -1,11 +1,14 @@
 import Route from '@ember/routing/route';
+import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
-export default Route.extend({
+export default Route.extend(ApplicationRouteMixin, {
 
-    actions: {
-        didTransition() {
-            this._super(...arguments);
-            window.scrollTo(0,0);
-        },
+  routeAfterAuthentication: 'index',
+
+  actions: {
+    didTransition() {
+      this._super(...arguments);
+      window.scrollTo(0, 0);
     },
+  },
 });

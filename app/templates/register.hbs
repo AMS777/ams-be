@@ -2,13 +2,13 @@
 <h1>Register</h1>
 
 {{#paper-form class="layout-column layout-align-space-around-stretch"
-  data-test-register-form=true as |form|}}
-  {{form.input label="Name" value=name onChange=(action (mut name)) icon="person"
-    required=true data-test-name=true}}
-  {{form.input label="Email" type="email" value=email onChange=(action (mut email))
-    icon="email" required=true data-test-email=true}}
-  {{form.input label="Password" type="password" value=password onChange=(action (mut password))
-    icon="lock" required=true data-test-password=true}}
+  onSubmit=(action "submitRegisterForm") data-test-register-form=true as |form|}}
+  {{form.input label="Name" value=(get model "name") onChange=(action (mut (get model "name")))
+    icon="person" required=true data-test-name=true}}
+  {{form.input label="Email" type="email" value=(get model "email")
+    onChange=(action (mut (get model "email"))) icon="email" required=true data-test-email=true}}
+  {{form.input label="Password" type="password" value=(get model "password")
+    onChange=(action (mut (get model "password"))) icon="lock" required=true data-test-password=true}}
   {{form.input label="Repeat password" type="password" value=repeatPassword
     onChange=(action (mut repeatPassword)) icon="lock" required=true data-test-repeat-password=true}}
   {{#form.submit-button raised=true primary=true data-test-submit=true}}

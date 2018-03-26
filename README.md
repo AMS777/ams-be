@@ -32,6 +32,9 @@ tags in templates for production builds.
   https://github.com/simplabs/qunit-dom
 - ember-cli-fake-server. Makes it extremely simple to stub ajax requests for testing.  
   https://github.com/201-created/ember-cli-fake-server
+- ember-simple-auth. A library for implementing authentication/authorization in 
+Ember.js applications.  
+  https://github.com/simplabs/ember-simple-auth
 
 ## Features
 
