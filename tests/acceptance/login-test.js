@@ -90,5 +90,7 @@ module('Acceptance | login', function(hooks) {
     assert.equal(session.get('data.authenticated.name'), data.name, 'User name stored in session.');
     assert.equal(session.get('data.authenticated.email'), data.email, 'User email stored in session.');
     assert.equal(currentURL(), '/', 'Index page after login.');
+    assert.dom('[data-test-page-navbar] [data-test-login-link]').doesNotExist('Login link does not exist on page navbar.');
+    assert.dom('[data-test-page-navbar] [data-test-logout-link]').exists('Logout button exists on page navbar.');
   });
 });

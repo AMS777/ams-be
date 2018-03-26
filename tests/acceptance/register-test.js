@@ -98,6 +98,8 @@ module('Acceptance | register', function(hooks) {
       .exists('There is a link to the homepage on the register confirmation page.');
     await click('[data-test-link-to-homepage-on-register-confirmation-page]');
     assert.equal(currentURL(), '/');
+    assert.dom('[data-test-page-navbar] [data-test-register-link]')
+      .doesNotExist('Register link does not exist on page navbar.');
 
     await visit('/register');
     assert.equal(currentURL(), '/', 'Register page not available when user is logged in. Redirection to index.');

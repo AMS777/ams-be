@@ -5,7 +5,11 @@
       <img src="/images/ams-be-logo-light-gray.png" alt="Logo" />
     {{/link-to}}
     <span class="flex"></span>
-    {{paper-link "Register" "register" raised=true data-test-register-link=true}}
-    {{paper-link "Login" "login" raised=true data-test-login-link=true}}
+    {{#if session.isAuthenticated}}
+        {{paper-button label="Logout" onClick=(action 'invalidateSession') data-test-logout-link=true}}
+    {{else}}
+      {{paper-link "Register" "register" raised=true data-test-register-link=true}}
+      {{paper-link "Login" "login" raised=true data-test-login-link=true}}
+    {{/if}}
   {{/paper-toolbar-tools}}
 {{/paper-toolbar}}
