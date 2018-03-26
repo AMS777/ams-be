@@ -50,6 +50,7 @@ module('Acceptance | register', function(hooks) {
       email: 'valid@email.format',
       password: 'Password_$0123áÉíÖüñ',
     };
+    const accessToken = 'ABCD';
 
     // "pts": "parent test selector"
     const pts = '[data-test-register-form] ';
@@ -74,7 +75,7 @@ module('Acceptance | register', function(hooks) {
     });
     stubRequest('post', '/api/token', (request) => {
       const response = {
-        access_token: 'ABCD',
+        access_token: accessToken,
         name: data.name,
         email: data.email,
       };
@@ -88,6 +89,7 @@ module('Acceptance | register', function(hooks) {
     await click(pts + '[data-test-submit]');
     const session = currentSession();
     assert.notOk(Ember.$.isEmptyObject(session.get('data.authenticated')), 'User authenticated.');
+    assert.equal(session.get('data.authenticated.access_token'), accessToken, 'Access token stored in session.');
     assert.equal(session.get('data.authenticated.name'), data.name, 'User name stored in session.');
     assert.equal(session.get('data.authenticated.email'), data.email, 'User email stored in session.');
     assert.equal(currentURL(), '/register-confirmation');
