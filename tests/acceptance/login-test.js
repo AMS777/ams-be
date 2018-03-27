@@ -140,7 +140,7 @@ module('Acceptance | login', function(hooks) {
     const accessToken = 'Example_token$';
 
     // "pts": "parent test selector"
-    const pts = '[data-test-login-form] ';
+    let pts = '[data-test-login-form] ';
 
     stubRequest('get', usersApiUrl, (request) => {
       const requestData = request.json().data;
@@ -182,7 +182,14 @@ module('Acceptance | login', function(hooks) {
     assert.equal(session.get('data.authenticated.name'), data.name, 'User name stored in session.');
     assert.equal(session.get('data.authenticated.email'), data.email, 'User email stored in session.');
     assert.equal(currentURL(), '/', 'Index page after login.');
-    assert.dom('[data-test-page-navbar] [data-test-login-link]').doesNotExist('Login link does not exist on page navbar.');
-    assert.dom('[data-test-page-navbar] [data-test-logout-link]').exists('Logout button exists on page navbar.');
+
+    pts = '[data-test-page-navbar] ';
+    assert.dom(pts + '[data-test-login-link]').doesNotExist('Login link does not exist on page navbar.');
+    assert.dom(pts + '[data-test-logout-link]').exists('Logout button exists on page navbar.');
+
+    await click(pts + '[data-test-logout-link]');
+    assert.equal(currentURL(), '/', 'Index page after logout.');
+    assert.dom(pts + '[data-test-login-link]').exists('After logout: Login link exists on page navbar.');
+    assert.dom(pts + '[data-test-logout-link]').doesNotExist('After logout: Logout button does not exist on page navbar.');
   });
 });
