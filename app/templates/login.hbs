@@ -7,7 +7,19 @@
     onChange=(action (mut (get model "email"))) icon="email" required=true data-test-email=true}}
   {{form.input label="Password" type="password" value=(get model "password")
     onChange=(action (mut (get model "password"))) icon="lock" required=true data-test-password=true}}
-  {{#form.submit-button raised=true primary=true data-test-submit-login=true}}
+  {{#form.submit-button raised=true primary=true data-test-submit=true}}
     Login
   {{/form.submit-button}}
 {{/paper-form}}
+
+{{#info-dialog showDialog=showDialog_ErrorMessage dialogTitle=errorTitle}}
+  <p>
+    {{errorMessage}}
+  </p>
+  <p>
+    Please try to fix it or try again later.
+  </p>
+  <p>
+    If the problem persists, please contact the administrator.
+  </p>
+{{/info-dialog}}

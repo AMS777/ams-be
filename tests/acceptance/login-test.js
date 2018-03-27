@@ -4,6 +4,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import FakeServer, { stubRequest } from 'ember-cli-fake-server';
 import { currentSession } from 'ember-simple-auth/test-support';
 import $ from 'jquery';
+import ENV from '../../config/environment';
 
 module('Acceptance | login', function(hooks) {
   setupApplicationTest(hooks);
@@ -16,28 +17,120 @@ module('Acceptance | login', function(hooks) {
     FakeServer.stop();
   });
 
-  test('Link to login page exists on page navbar.', async function(assert) {
+  const usersApiUrl = ENV.apiNamespace + '/users';
+  const tokenApiUrl = ENV.apiNamespace + '/token';
+
+  test('Link to login page on page navbar', async function(assert) {
     await visit('/');
 
-    assert.dom('[data-test-page-navbar] [data-test-login-link]').exists('Login link exists on page navbar.');
+    assert.dom('[data-test-page-navbar] [data-test-login-link]')
+      .exists('Link to login page exists on page navbar.');
+    await click('[data-test-page-navbar] [data-test-register-link]');
+    assert.equal(currentURL(), '/register', 'Link to login page on page navbar redirects to login page.');
   });
 
-  test('Login form exists on login page.', async function(assert) {
+  test('Form exists', async function(assert) {
     await visit('/login');
 
     // "pts": "parent test selector"
     const pts = '[data-test-login-form] ';
 
     assert.dom(pts).exists('Login form exists.');
-    assert.dom(pts + '[data-test-email]').exists('Login form has email field.');
-    assert.dom(pts + '[data-test-password]').exists('Login form has password field.');
-    assert.dom(pts + '[data-test-submit-login]').exists('Login form has submit button.');
+    assert.dom(pts + '[data-test-email]').exists('Form has email field.');
+    assert.dom(pts + '[data-test-password]').exists('Form has password field.');
+    assert.dom(pts + '[data-test-submit]').exists('Form has submit button.');
   });
 
-  test('User login - successful.', async function(assert) {
-    await visit('/');
-    await click('[data-test-page-navbar] [data-test-login-link]');
-    assert.equal(currentURL(), '/login', 'Page navbar login link works. Only available when user is not logged in.');
+  test('Validate form', async function(assert) {
+    await visit('/login');
+
+    // "pts": "parent test selector"
+    const pts = '[data-test-login-form] ';
+
+    const requiredMessage = 'This is required.';
+    await click(pts + '[data-test-submit]');
+    assert.dom(pts + '[data-test-email] .paper-input-error').hasText(requiredMessage, 'Validate empty email.');
+    assert.dom(pts + '[data-test-password] .paper-input-error').hasText(requiredMessage, 'Validate empty password.');
+
+    await fillIn(pts + '[data-test-email] input', 'invalid-email-format');
+    await click(pts + '[data-test-submit]');
+    assert.dom(pts + '[data-test-email] input').isFocused('Validate email format.');
+  });
+
+  test('Submit form - Error', async function(assert) {
+    await visit('/login');
+
+    const data = {
+      name: 'Test Name',
+      email: 'valid@email.format',
+      password: 'Password_$0123áÉíÖüñ',
+    };
+
+    // "pts": "parent test selector"
+    const pts = '[data-test-login-form] ';
+    const sDialog = 'md-dialog';
+    const sDialogToolbar = sDialog + ' md-toolbar';
+    const sDialogContent = sDialog + ' md-dialog-content';
+    const sDialogCloseButton = sDialogToolbar + ' button';
+
+//    stubRequest('get', usersApiUrl, (request) => {
+    stubRequest('post', tokenApiUrl, (request) => {
+      request.error({"errors":[{
+        "source":{"parameter":"email"},
+        "title":'Email Error',
+        "detail":'The email "' + data.email + '" does not exist.'
+      }],"jsonapi":{"version":"1.0"}});
+    });
+    await fillIn(pts + '[data-test-email] input', data.email);
+    await fillIn(pts + '[data-test-password] input', data.password);
+    await click(pts + '[data-test-submit]');
+    assert.dom(pts).exists('Form is not hidden when there is an error.');
+    assert.dom(pts + '[data-test-email] input').hasValue(data.email, 'Email field is not empty.');
+    assert.dom(pts + '[data-test-password] input').hasValue(data.password, 'Password field is not empty.');
+    assert.dom(sDialog).exists('Error message dialog shown.');
+    assert.dom(sDialogToolbar).includesText('Email Error', 'Error message dialog title.');
+    assert.dom(sDialogContent).includesText(
+      'The email "' + data.email + '" does not exist.',
+      'Error message message dialog.'
+    );
+    await click(sDialogCloseButton);
+
+//    stubRequest('get', usersApiUrl, (request) => {
+    stubRequest('post', tokenApiUrl, (request) => {
+      request.error({"errors":[
+        {"source":{"parameter":"name"},"title":"Name Error","detail":"The name field is required."},
+        {"source":{"parameter":"email"},"title":"Email Error","detail":"The email field is required."},
+        {"source":{"parameter":"password"},"title":"Password Error","detail":"The password field is required."}
+      ],"jsonapi":{"version":"1.0"}});
+    });
+    await click(pts + '[data-test-submit]');
+    assert.dom(sDialog).exists('Error message dialog shown when multiple errors returned.');
+    assert.dom(sDialogToolbar).includesText(
+      'Name Error',
+      'Show first error title when there are multiple errors.'
+    );
+    assert.dom(sDialogContent).includesText(
+      'The name field is required.',
+      'Show first error message when there are multiple errors.'
+    );
+    await click(sDialogCloseButton);
+
+//    stubRequest('get', usersApiUrl, (request) => {
+    stubRequest('post', tokenApiUrl, (request) => {
+      request.error();
+    });
+    await click(pts + '[data-test-submit]');
+    assert.dom(sDialog).exists('Generic error dialog shown.');
+    assert.dom(sDialogToolbar).includesText('Login Error', 'Generic error dialog title.');
+    assert.dom(sDialogContent).includesText(
+      'The user account cannot be logged in.',
+      'Generic error dialog message.'
+    );
+    await click(sDialogCloseButton);
+  });
+
+  test('Submit form - Successful', async function(assert) {
+    await visit('/login');
 
     const data = {
       name: 'Test Name',
@@ -49,7 +142,7 @@ module('Acceptance | login', function(hooks) {
     // "pts": "parent test selector"
     const pts = '[data-test-login-form] ';
 
-    stubRequest('get', '/api/users', (request) => {
+    stubRequest('get', usersApiUrl, (request) => {
       const requestData = request.json().data;
       if (requestData.type == 'users' && requestData.attributes.name == data.name
         && requestData.attributes.email == data.email && requestData.attributes.password == data.password
@@ -67,7 +160,7 @@ module('Acceptance | login', function(hooks) {
         request.error();
       }
     });
-    stubRequest('post', '/api/token', (request) => {
+    stubRequest('post', tokenApiUrl, (request) => {
       const requestData = request.json();
       if (requestData.username == data.email && requestData.password == data.password) {
         const response = {
@@ -80,10 +173,9 @@ module('Acceptance | login', function(hooks) {
         request.error();
       }
     });
-
     await fillIn(pts + '[data-test-email] input', data.email);
     await fillIn(pts + '[data-test-password] input', data.password);
-    await click(pts + '[data-test-submit-login]');
+    await click(pts + '[data-test-submit]');
     const session = currentSession();
     assert.notOk($.isEmptyObject(session.get('data.authenticated')), 'User authenticated.');
     assert.equal(session.get('data.authenticated.access_token'), accessToken, 'Access token stored in session.');
