@@ -15,3 +15,15 @@
     Register
   {{/form.submit-button}}
 {{/paper-form}}
+
+{{#info-dialog showDialog=showDialog_ErrorMessage dialogTitle=errorTitle}}
+  <p>
+    {{errorMessage}}
+  </p>
+  <p>
+    Please try to fix it or try again later.
+  </p>
+  <p>
+    If the problem persists, please contact the administrator.
+  </p>
+{{/info-dialog}}
