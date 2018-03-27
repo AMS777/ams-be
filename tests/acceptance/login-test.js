@@ -18,7 +18,7 @@ module('Acceptance | login', function(hooks) {
   });
 
   const usersApiUrl = ENV.apiNamespace + '/users';
-  const tokenApiUrl = ENV.apiNamespace + '/token';
+  const tokenApiUrl = ENV.apiNamespace + '/get-token';
 
   test('Link to login page on page navbar', async function(assert) {
     await visit('/');
