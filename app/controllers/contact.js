@@ -53,13 +53,6 @@ export default Controller.extend({
       try {
         // only first error message is shown, multiple error messages not
         // expected often
-        this.set('errorMessage', payload.errors[0].title);
-      } catch (e) {
-        this.set('errorMessage', 'The contact message cannot be sent.');
-      }
-      try {
-        // only first error message is shown, multiple error messages not
-        // expected often
         this.setProperties({
           'errorTitle': payload.errors[0].title,
           'errorMessage': payload.errors[0].detail,
