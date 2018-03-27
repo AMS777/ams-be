@@ -20,7 +20,7 @@ module('Acceptance | register', function(hooks) {
   const usersApiUrl = ENV.apiNamespace + '/users';
   const tokenApiUrl = ENV.apiNamespace + '/token';
 
-  test('Link to register page on page navbar.', async function(assert) {
+  test('Link to register page on page navbar', async function(assert) {
     await visit('/');
 
     assert.dom('[data-test-page-navbar] [data-test-register-link]')
@@ -29,7 +29,7 @@ module('Acceptance | register', function(hooks) {
     assert.equal(currentURL(), '/register', 'Link to register page on page navbar redirects to register page.');
   });
 
-  test('Form exists.', async function(assert) {
+  test('Form exists', async function(assert) {
     await visit('/register');
 
     // "pts": "parent test selector"
@@ -43,7 +43,7 @@ module('Acceptance | register', function(hooks) {
     assert.dom(pts + '[data-test-submit]').exists('Form has submit button.');
   });
 
-  test('Validate form.', async function(assert) {
+  test('Validate form', async function(assert) {
     await visit('/register');
 
     // "pts": "parent test selector"
@@ -121,6 +121,18 @@ module('Acceptance | register', function(hooks) {
     assert.dom(sDialogContent).includesText(
       'The name field is required.',
       'Show first error message when there are multiple errors.'
+    );
+    await click(sDialogCloseButton);
+
+    stubRequest('post', usersApiUrl, (request) => {
+      request.error();
+    });
+    await click(pts + '[data-test-submit]');
+    assert.dom(sDialog).exists('Adapter error dialog shown.');
+    assert.dom(sDialogToolbar).includesText('Adapter Error', 'Adapter error dialog title.');
+    assert.dom(sDialogContent).includesText(
+      'The adapter rejected the commit because it was invalid',
+      'Adapter error dialog message.'
     );
     await click(sDialogCloseButton);
 
