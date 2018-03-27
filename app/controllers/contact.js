@@ -8,10 +8,11 @@ export default Controller.extend({
   name: '',
   email: '',
   message: '',
-  errorMessage: '',
 
   contactMessageSentSuccessfully: false,
   showDialog_ErrorMessage: false,
+  errorTitle: '',
+  errorMessage: '',
 
   actions: {
     submitContactMessage() {
@@ -37,7 +38,7 @@ export default Controller.extend({
       }
     }};
 
-    this.get('ajax').post('contact-message', {
+    this.get('ajax').post('/contact-message', {
       data: jsonApi,
       dataType: 'json',
       contentType: 'application/json; charset=utf-8',
@@ -55,6 +56,19 @@ export default Controller.extend({
         this.set('errorMessage', payload.errors[0].title);
       } catch (e) {
         this.set('errorMessage', 'The contact message cannot be sent.');
+      }
+      try {
+        // only first error message is shown, multiple error messages not
+        // expected often
+        this.setProperties({
+          'errorTitle': payload.errors[0].title,
+          'errorMessage': payload.errors[0].detail,
+        });
+      } catch (e) {
+        this.setProperties({
+          'errorTitle': 'Contact Message Error',
+          'errorMessage': 'The contact message cannot be sent.',
+        });
       }
       this.set('showDialog_ErrorMessage', true);
     });

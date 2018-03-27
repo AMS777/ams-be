@@ -25,14 +25,14 @@
 
 {{/if}}
 
-{{#info-dialog showDialog=showDialog_ErrorMessage dialogTitle="Contact message error"}}
-    <p>
-      {{errorMessage}}
-    </p>
-    <p>
-      Please try again later.
-    </p>
-    <p>
-      If the problem persists, please contact the administrator other way.
-    </p>
+{{#info-dialog showDialog=showDialog_ErrorMessage dialogTitle=errorTitle}}
+  <p>
+    {{errorMessage}}
+  </p>
+  <p>
+    Please try to fix it or try again later.
+  </p>
+  <p>
+    If the problem persists, please contact the administrator other way.
+  </p>
 {{/info-dialog}}
