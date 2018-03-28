@@ -3,14 +3,18 @@
 
 {{#paper-form class="layout-column layout-align-space-around-stretch"
   onSubmit=(action "submitRegisterForm") data-test-register-form=true as |form|}}
-  {{form.input label="Name" value=(get model "name") onChange=(action (mut (get model "name")))
-    icon="person" required=true data-test-name=true}}
+  {{form.input label="Name" type="text" value=(get model "name")
+    onChange=(action (mut (get model "name"))) icon="person"
+    errors=model.validations.attrs.name.messages data-test-name=true}}
   {{form.input label="Email" type="email" value=(get model "email")
-    onChange=(action (mut (get model "email"))) icon="email" required=true data-test-email=true}}
+    onChange=(action (mut (get model "email"))) icon="email"
+    errors=model.validations.attrs.email.messages data-test-email=true}}
   {{form.input label="Password" type="password" value=(get model "password")
-    onChange=(action (mut (get model "password"))) icon="lock" required=true data-test-password=true}}
-  {{form.input label="Repeat password" type="password" value=repeatPassword
-    onChange=(action (mut repeatPassword)) icon="lock" required=true data-test-repeat-password=true}}
+    onChange=(action (mut (get model "password"))) icon="lock"
+    errors=model.validations.attrs.password.messages data-test-password=true}}
+  {{form.input label="Repeat password" type="password" value=(get model "repeatPassword")
+    onChange=(action (mut (get model "repeatPassword"))) icon="lock"
+    errors=model.validations.attrs.repeatPassword.messages data-test-repeat-password=true}}
   {{#form.submit-button raised=true primary=true data-test-submit=true}}
     Register
   {{/form.submit-button}}

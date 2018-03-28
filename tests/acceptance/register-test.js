@@ -49,16 +49,21 @@ module('Acceptance | register', function(hooks) {
     // "pts": "parent test selector"
     const pts = '[data-test-register-form] ';
 
-    const requiredMessage = 'This is required.';
+//    const requiredMessage = 'This is required.';
     await click(pts + '[data-test-submit]');
-    assert.dom(pts + '[data-test-name] .paper-input-error').hasText(requiredMessage, 'Validate empty name.');
-    assert.dom(pts + '[data-test-email] .paper-input-error').hasText(requiredMessage, 'Validate empty email.');
-    assert.dom(pts + '[data-test-password] .paper-input-error').hasText(requiredMessage, 'Validate empty password.');
-    assert.dom(pts + '[data-test-repeat-password] .paper-input-error').hasText(requiredMessage, 'Validate empty repeat password.');
+    assert.dom(pts + '[data-test-name] .paper-input-error').hasText('Name is required.', 'Validate empty name.');
+    assert.dom(pts + '[data-test-email] .paper-input-error').hasText('Email is required.', 'Validate empty email.');
+    assert.dom(pts + '[data-test-password] .paper-input-error').hasText('Password is required.', 'Validate empty password.');
 
     await fillIn(pts + '[data-test-email] input', 'invalid-email-format');
-    await click(pts + '[data-test-submit]');
-    assert.dom(pts + '[data-test-email] input').isFocused('Validate email format.');
+//    await click(pts + '[data-test-submit]');
+//    assert.dom(pts + '[data-test-email] input').isFocused('Validate email format.');
+    assert.dom(pts + '[data-test-email] .paper-input-error').hasText('Invalid email.', 'Validate email format.');
+
+    await fillIn(pts + '[data-test-password] input', 'Some_password');
+    await fillIn(pts + '[data-test-repeat-password] input', 'Different-Password');
+    assert.dom(pts + '[data-test-repeat-password] .paper-input-error')
+      .hasText('Passwords do not match.', 'Validate repeat password equal to password.');
   });
 
   test('Submit form - Error', async function(assert) {
@@ -137,7 +142,7 @@ module('Acceptance | register', function(hooks) {
     await click(sDialogCloseButton);
 
     stubRequest('post', usersApiUrl, (request) => {
-      request.error({ errors });
+      request.error({ "errors": "" });
     });
     await click(pts + '[data-test-submit]');
     assert.dom(sDialog).exists('Generic error dialog shown.');

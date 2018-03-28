@@ -35,6 +35,9 @@ tags in templates for production builds.
 - ember-simple-auth. A library for implementing authentication/authorization in 
 Ember.js applications.  
   https://github.com/simplabs/ember-simple-auth
+- ember-cp-validations. Elaborate validations (email format, string length,
+fields comparison...)
+  https://github.com/offirgolan/ember-cp-validations
 
 ## Features
 

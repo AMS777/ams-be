@@ -1,7 +1,35 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { validator, buildValidations } from 'ember-cp-validations';
 
-export default Controller.extend({
+const Validations = buildValidations({
+  name: validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+    message: 'Name is required.',
+  }),
+  email: [
+    validator('presence', {
+      presence: true,
+      ignoreBlank: true,
+      message: 'Email is required.',
+    }),
+    validator('format', {
+      type: 'email',
+      message: 'Invalid email.',
+    })
+  ],
+  message: [
+    validator('presence', {
+      presence: true,
+      ignoreBlank: true,
+      message: 'Message is required.',
+    }),
+  ],
+});
+
+
+export default Controller.extend(Validations, {
 
   ajax: service(),
 
