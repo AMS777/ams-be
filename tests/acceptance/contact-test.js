@@ -42,13 +42,13 @@ module('Acceptance | contact', function(hooks) {
     // "pts": "parent test selector"
     const pts = '[data-test-contact-form] ';
 
-    const requiredMessage = 'This is required.';
     await click(pts + '[data-test-submit]');
-    assert.dom(pts + '[data-test-name] .paper-input-error').hasText(requiredMessage, 'Validate empty name.');
-    assert.dom(pts + '[data-test-email] .paper-input-error').hasText(requiredMessage, 'Validate empty email.');
-    assert.dom(pts + '[data-test-message] .paper-input-error').hasText(requiredMessage, 'Validate empty message.');
+    assert.dom(pts + '[data-test-name] .paper-input-error').hasText('Name is required.', 'Validate empty name.');
+    assert.dom(pts + '[data-test-email] .paper-input-error').hasText('Email is required.', 'Validate empty email.');
+    assert.dom(pts + '[data-test-message] .paper-input-error').hasText('Message is required.', 'Validate empty message.');
 
     await fillIn(pts + '[data-test-email] input', 'invalid-email-format');
+    assert.dom(pts + '[data-test-email] .paper-input-error').hasText('Invalid email.', 'Validate email format.');
     await click(pts + '[data-test-submit]');
     assert.dom(pts + '[data-test-email] input').isFocused('Validate email format.');
   });

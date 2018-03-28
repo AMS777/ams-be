@@ -56,6 +56,8 @@ module('Acceptance | register', function(hooks) {
 
     await fillIn(pts + '[data-test-email] input', 'invalid-email-format');
     assert.dom(pts + '[data-test-email] .paper-input-error').hasText('Invalid email.', 'Validate email format.');
+    await click(pts + '[data-test-submit]');
+    assert.dom(pts + '[data-test-email] input').isFocused('Validate email format.');
 
     await fillIn(pts + '[data-test-password] input', 'Some_password');
     await fillIn(pts + '[data-test-repeat-password] input', 'Different-Password');
