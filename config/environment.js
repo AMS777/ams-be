@@ -6,7 +6,6 @@ module.exports = function(environment) {
     environment,
     rootURL: '/',
     locationType: 'auto',
-//    apiHost: 'api',
     apiNamespace: '/api',
 
     EmberENV: {
@@ -21,8 +20,8 @@ module.exports = function(environment) {
     },
 
     APP: {
-      // Here you can pass flags/options to your application instance
-      // when it is created
+      PASSWORD_MIN_CHARACTERS: 5,
+      PASSWORD_MAX_CHARACTERS: 100,
     },
 
     TEXTS: {

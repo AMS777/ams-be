@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import { validator, buildValidations } from 'ember-cp-validations';
+import ENV from '../config/environment';
 
 const Validations = buildValidations({
   name: validator('presence', {
@@ -25,14 +26,14 @@ const Validations = buildValidations({
       message: 'Password is required.',
     }),
     validator('length', {
-      min: 5,
-      max: 10,
+      min: ENV.APP.PASSWORD_MIN_CHARACTERS,
+      max: ENV.APP.PASSWORD_MAX_CHARACTERS,
       message(type) {
         if (type === 'tooShort') {
-          return 'Minimum 5 characters.';
+          return 'Minimum ' + ENV.APP.PASSWORD_MIN_CHARACTERS + ' characters.';
         }
         if (type === 'tooLong') {
-          return 'Maximum 10 characters.';
+          return 'Maximum ' + ENV.APP.PASSWORD_MAX_CHARACTERS + ' characters.';
         }
       }
     })

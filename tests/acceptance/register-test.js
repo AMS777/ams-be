@@ -49,15 +49,12 @@ module('Acceptance | register', function(hooks) {
     // "pts": "parent test selector"
     const pts = '[data-test-register-form] ';
 
-//    const requiredMessage = 'This is required.';
     await click(pts + '[data-test-submit]');
     assert.dom(pts + '[data-test-name] .paper-input-error').hasText('Name is required.', 'Validate empty name.');
     assert.dom(pts + '[data-test-email] .paper-input-error').hasText('Email is required.', 'Validate empty email.');
     assert.dom(pts + '[data-test-password] .paper-input-error').hasText('Password is required.', 'Validate empty password.');
 
     await fillIn(pts + '[data-test-email] input', 'invalid-email-format');
-//    await click(pts + '[data-test-submit]');
-//    assert.dom(pts + '[data-test-email] input').isFocused('Validate email format.');
     assert.dom(pts + '[data-test-email] .paper-input-error').hasText('Invalid email.', 'Validate email format.');
 
     await fillIn(pts + '[data-test-password] input', 'Some_password');
@@ -89,19 +86,16 @@ module('Acceptance | register', function(hooks) {
         "detail":'The email "' + data.email + '" is already used.'
       }],"jsonapi":{"version":"1.0"}});
     });
-
     await fillIn(pts + '[data-test-name] input', data.name);
     await fillIn(pts + '[data-test-email] input', data.email);
     await fillIn(pts + '[data-test-password] input', data.password);
     await fillIn(pts + '[data-test-repeat-password] input', data.password);
     await click(pts + '[data-test-submit]');
-
     assert.dom(pts).exists('Form is not hidden when there is an error.');
     assert.dom(pts + '[data-test-name] input').hasValue(data.name, 'Name field is not empty.');
     assert.dom(pts + '[data-test-email] input').hasValue(data.email, 'Email field is not empty.');
     assert.dom(pts + '[data-test-password] input').hasValue(data.password, 'Password field is not empty.');
     assert.dom(pts + '[data-test-repeat-password] input').hasValue(data.password, 'Repeat password field is not empty.');
-
     assert.dom(sDialog).exists('Error message dialog shown.');
     assert.dom(sDialogToolbar).includesText('Email Error', 'Error message dialog title.');
     assert.dom(sDialogContent).includesText(
