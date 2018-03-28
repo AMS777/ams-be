@@ -136,7 +136,7 @@ module('Acceptance | register', function(hooks) {
     await click(sDialogCloseButton);
 
     stubRequest('post', usersApiUrl, (request) => {
-      request.error({ "errors": "" });
+      request.error({ errors: {} });
     });
     await click(pts + '[data-test-submit]');
     assert.dom(sDialog).exists('Generic error dialog shown.');
