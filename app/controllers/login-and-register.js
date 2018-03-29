@@ -10,6 +10,9 @@ export default Controller.extend({
   errorMessage: '',
 
   actions: {
+    submitLoginForm() {
+      this.authenticate();
+    },
     submitRegisterForm() {
       this.handleSubmitRegisterForm();
     },
@@ -18,7 +21,9 @@ export default Controller.extend({
   handleSubmitRegisterForm() {
 
     this.get('model').save().then(() => {
-      this.authenticate();
+      this.authenticate().then(() => {
+        this.transitionToRoute('register-confirmation');
+      });
     }).catch((reason) => {
       try {
         // only first error message is shown, multiple error messages not
@@ -42,19 +47,21 @@ export default Controller.extend({
     const email = this.get('model').get('email');
     const password = this.get('model').get('password');
 
-    this.get('session').authenticate('authenticator:oauth2', email, password).then(() => {
-
-      this.transitionToRoute('register-confirmation');
-    }).catch((reason) => {
-//      if (reason.error === 'invalid_request') {
-//        this.set('showLoginDataEmptyDialog', true);
-//      } else if (reason.error === 'invalid_grant' && reason.error_description === 'Email not found.') {
-//        this.set('showRegisterDialog', true);
-//      } else if (reason.error === 'invalid_grant' && reason.error_description === 'Password does not match email.') {
-//        this.set('showLoginPasswordDoesNotMatchDialog', true);
-//      } else {
-//        this.set('showLoginErrorDialog', true);
-//      }
+    return this.get('session').authenticate('authenticator:oauth2', email, password).catch((reason) => {
+      try {
+        // only first error message is shown, multiple error messages not
+        // expected often
+        this.setProperties({
+          'errorTitle': reason.errors[0].title,
+          'errorMessage': reason.errors[0].detail,
+        });
+      } catch (e) {
+        this.setProperties({
+          'errorTitle': 'Login Error',
+          'errorMessage': 'The user account cannot be logged in.',
+        });
+      }
+      this.set('showDialog_ErrorMessage', true);
     });
   },
 });

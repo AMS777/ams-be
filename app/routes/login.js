@@ -5,8 +5,13 @@ export default Route.extend(UnauthenticatedRouteMixin, {
 
   routeIfAlreadyAuthenticated: 'index',
 
+  init() {
+    this._super(...arguments);
+    this.controllerName = 'login-and-register';
+  },
+
   model() {
 
     return this.store.createRecord('user');
-  }
+  },
 });
