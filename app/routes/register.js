@@ -13,5 +13,5 @@ export default Route.extend(UnauthenticatedRouteMixin, {
   model() {
 
     return this.store.createRecord('user');
-  }
+  },
 });
