@@ -28,7 +28,6 @@ const Validations = buildValidations({
   ],
 });
 
-
 export default Controller.extend(Validations, {
 
   ajax: service(),
@@ -37,7 +36,6 @@ export default Controller.extend(Validations, {
   email: '',
   message: '',
 
-  contactMessageSentSuccessfully: false,
   showDialog_ErrorMessage: false,
   errorTitle: '',
   errorMessage: '',
@@ -46,13 +44,6 @@ export default Controller.extend(Validations, {
     submitContactMessage() {
       this.handleSubmitContactMessage();
     },
-  },
-
-  showContactFormIfItIsHidden() {
-
-    if (this.get('contactMessageSentSuccessfully')) {
-      this.set('contactMessageSentSuccessfully', false);
-    }
   },
 
   handleSubmitContactMessage() {
@@ -72,11 +63,11 @@ export default Controller.extend(Validations, {
       contentType: 'application/json; charset=utf-8',
     }).then(() => {
       this.setProperties({
-        'contactMessageSentSuccessfully': true,
         'name': '',
         'email': '',
         'message': '',
       });
+      this.transitionToRoute('contact-confirmation');
     }).catch(({ payload }) => {
       try {
         // only first error message is shown, multiple error messages not

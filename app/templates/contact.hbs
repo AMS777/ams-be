@@ -1,29 +1,19 @@
 
 <h1>Contact Message</h1>
 
-{{#if contactMessageSentSuccessfully}}
-
-  <div data-test-confirmation-message=true>
-    Message sent successfully.
-  </div>
-
-{{else}}
-
-  {{#paper-form class="layout-column layout-align-space-around-stretch"
-    onSubmit=(action "submitContactMessage") data-test-contact-form=true as |form|}}
-    {{form.input label="Name" value=name onChange=(action (mut name)) icon="person"
-      errors=validations.attrs.name.messages data-test-name=true}}
-    {{form.input label="Email" type="email" value=email onChange=(action (mut email))
-      icon="email" errors=validations.attrs.email.messages data-test-email=true}}
-    {{form.input label="Message" textarea=true block=true maxlength=250
-      passThru=(hash rows=5 maxRows=5) value=message onChange=(action (mut message))
-      icon="subject" errors=validations.attrs.message.messages data-test-message=true}}
-    {{#form.submit-button raised=true primary=true data-test-submit=true}}
-      Send message
-    {{/form.submit-button}}
-  {{/paper-form}}
-
-{{/if}}
+{{#paper-form class="layout-column layout-align-space-around-stretch"
+  onSubmit=(action "submitContactMessage") data-test-contact-form=true as |form|}}
+  {{form.input label="Name" value=name onChange=(action (mut name)) icon="person"
+    errors=validations.attrs.name.messages data-test-name=true}}
+  {{form.input label="Email" type="email" value=email onChange=(action (mut email))
+    icon="email" errors=validations.attrs.email.messages data-test-email=true}}
+  {{form.input label="Message" textarea=true block=true maxlength=250
+    passThru=(hash rows=5 maxRows=5) value=message onChange=(action (mut message))
+    icon="subject" errors=validations.attrs.message.messages data-test-message=true}}
+  {{#form.submit-button raised=true primary=true data-test-submit=true}}
+    Send message
+  {{/form.submit-button}}
+{{/paper-form}}
 
 {{#info-dialog showDialog=showDialog_ErrorMessage dialogTitle=errorTitle}}
   <p>

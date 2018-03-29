@@ -14,6 +14,7 @@ Router.map(function() {
   this.route('register');
   this.route('login');
   this.route('register-confirmation');
+  this.route('contact-confirmation');
 });
 
 export default Router;

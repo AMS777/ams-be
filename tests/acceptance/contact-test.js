@@ -149,15 +149,19 @@ module('Acceptance | contact', function(hooks) {
     });
 
     await click(pts + '[data-test-submit]');
+    assert.equal(currentURL(), '/contact-confirmation',
+      'Redirection to contact confirmation page after submitting message.');
+    assert.dom('[data-test-link-to-homepage-on-contact-confirmation-page]')
+      .exists('There is a link to homepage on the contact confirmation page.');
+    
+    await click('[data-test-link-to-homepage-on-contact-confirmation-page]');
+    assert.equal(currentURL(), '/',
+      'Redirection to homepage after clicking link to homepage on contact confirmation page.');
 
-    assert.dom(pts).doesNotExist('Contact form removed.');
-    assert.dom('[data-test-confirmation-message]').includesText('success', 'Show confirmation message.');
-
-    await visit('/');
     await visit('/contact');
-    assert.dom(pts).exists('Contact form shows up when the page is entered again.');
-    assert.dom(pts + '[data-test-name] input').hasNoValue('Name field is empty.');
-    assert.dom(pts + '[data-test-email] input').hasNoValue('Email field is empty.');
-    assert.dom(pts + '[data-test-message] textarea').hasNoValue('Message field is empty.');
+    assert.dom(pts).exists('Contact form shows up when the page is entered again after submitting message.');
+    assert.dom(pts + '[data-test-name] input').hasNoValue('Name field is empty after submitting message.');
+    assert.dom(pts + '[data-test-email] input').hasNoValue('Email field is empty after submitting message.');
+    assert.dom(pts + '[data-test-message] textarea').hasNoValue('Message field is empty after submitting message.');
   });
 });
