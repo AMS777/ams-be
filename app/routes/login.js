@@ -14,4 +14,11 @@ export default Route.extend(UnauthenticatedRouteMixin, {
 
     return this.store.createRecord('user');
   },
+  
+  actions: {
+    willTransition() {
+      this._super(...arguments);
+      this.store.unloadAll('user');
+    },
+  },
 });
