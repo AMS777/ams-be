@@ -73,13 +73,12 @@ module('Acceptance | login', function(hooks) {
     const sDialogContent = sDialog + ' md-dialog-content';
     const sDialogCloseButton = sDialogToolbar + ' button';
 
-//    stubRequest('get', usersApiUrl, (request) => {
     stubRequest('post', tokenApiUrl, (request) => {
-      request.error({"errors":[{
-        "source":{"parameter":"email"},
-        "title":'Email Error',
-        "detail":'The email "' + data.email + '" does not exist.'
-      }],"jsonapi":{"version":"1.0"}});
+      request.error({
+        "error": "invalid_client",
+        "error_title":'Email Error',
+        "error_description":'The email "' + data.email + '" does not exist.'
+      });
     });
     await fillIn(pts + '[data-test-email] input', data.email);
     await fillIn(pts + '[data-test-password] input', data.password);
@@ -95,29 +94,10 @@ module('Acceptance | login', function(hooks) {
     );
     await click(sDialogCloseButton);
 
-//    stubRequest('get', usersApiUrl, (request) => {
     stubRequest('post', tokenApiUrl, (request) => {
-      request.error({"errors":[
-        {"source":{"parameter":"name"},"title":"Name Error","detail":"The name field is required."},
-        {"source":{"parameter":"email"},"title":"Email Error","detail":"The email field is required."},
-        {"source":{"parameter":"password"},"title":"Password Error","detail":"The password field is required."}
-      ],"jsonapi":{"version":"1.0"}});
-    });
-    await click(pts + '[data-test-submit]');
-    assert.dom(sDialog).exists('Error message dialog shown when multiple errors returned.');
-    assert.dom(sDialogToolbar).includesText(
-      'Name Error',
-      'Show first error title when there are multiple errors.'
-    );
-    assert.dom(sDialogContent).includesText(
-      'The name field is required.',
-      'Show first error message when there are multiple errors.'
-    );
-    await click(sDialogCloseButton);
-
-//    stubRequest('get', usersApiUrl, (request) => {
-    stubRequest('post', tokenApiUrl, (request) => {
-      request.error();
+      request.error({
+        "error": "invalid_grant",
+      });
     });
     await click(pts + '[data-test-submit]');
     assert.dom(sDialog).exists('Generic error dialog shown.');
@@ -142,24 +122,6 @@ module('Acceptance | login', function(hooks) {
     // "pts": "parent test selector"
     let pts = '[data-test-login-form] ';
 
-    stubRequest('get', usersApiUrl, (request) => {
-      const requestData = request.json().data;
-      if (requestData.type == 'users' && requestData.attributes.name == data.name
-        && requestData.attributes.email == data.email && requestData.attributes.password == data.password
-      ) {
-        const jsonApiResponse = { data: {
-          type: 'users',
-          id: 1,
-          attributes: {
-            name: data.name,
-            email: data.email,
-          },
-        }};
-        request.ok(jsonApiResponse);
-      } else {
-        request.error();
-      }
-    });
     stubRequest('post', tokenApiUrl, (request) => {
       const requestData = request.json();
       if (requestData.username == data.email && requestData.password == data.password) {
