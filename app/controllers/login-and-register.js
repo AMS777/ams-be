@@ -48,15 +48,29 @@ export default Controller.extend({
     const password = this.get('model').get('password');
 
     return this.get('session').authenticate('authenticator:oauth2', email, password).catch((reason) => {
-      if (reason.error_title) {
-        this.set('errorTitle', reason.error_title);
-      } else {
-        this.set('errorTitle', 'Login Error');
-      }
       if (reason.error_description) {
+        // "reason.error_description": OAuth 2.0 error format
         this.set('errorMessage', reason.error_description);
+        if (reason.error_title) {
+          this.set('errorTitle', reason.error_title);
+        } else {
+          this.set('errorTitle', 'Login Error');
+        }
       } else {
-        this.set('errorMessage', 'The user account cannot be logged in.');
+        // "reason.errors[0]": JSON API error format
+        try {
+          // only first error message is shown, multiple error messages not
+          // expected often
+          this.setProperties({
+            'errorTitle': reason.errors[0].title,
+            'errorMessage': reason.errors[0].detail,
+          });
+        } catch (e) {
+          this.setProperties({
+            'errorTitle': 'Login Error',
+            'errorMessage': 'The user account cannot be logged in.',
+          });
+        }
       }
       this.set('showDialog_ErrorMessage', true);
     });

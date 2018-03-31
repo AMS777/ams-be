@@ -17,7 +17,6 @@ module('Acceptance | login', function(hooks) {
     FakeServer.stop();
   });
 
-  const usersApiUrl = ENV.apiNamespace + '/users';
   const tokenApiUrl = ENV.apiNamespace + '/get-token';
 
   test('Link to login page on page navbar', async function(assert) {
@@ -76,8 +75,8 @@ module('Acceptance | login', function(hooks) {
     stubRequest('post', tokenApiUrl, (request) => {
       request.error({
         "error": "invalid_client",
-        "error_title":'Email Error',
-        "error_description":'The email "' + data.email + '" does not exist.'
+        "error_title": 'Email Error',
+        "error_description": 'The email "' + data.email + '" does not exist.',
       });
     });
     await fillIn(pts + '[data-test-email] input', data.email);
