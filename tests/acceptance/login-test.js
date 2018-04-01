@@ -24,6 +24,11 @@ module('Acceptance | login', function(hooks) {
     password: 'Password_$0123áÉíÖüñ',
   };
   const oldJwtToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvZ2V0LXRva2VuIiwiaWF0IjoxNTIyNDk3NTIzLCJleHAiOjE1MjI1MDExMjMsIm5iZiI6MTUyMjQ5NzUyMywianRpIjoidmdTNGZXU3hUR2FFem5LQyIsInN1YiI6MzI5LCJwcnYiOiI0MWRmODgzNGYxYjk4ZjcwZWZhNjBhYWVkZWY0MjM0MTM3MDA2OTBjIn0.1FeDFn03i4mmT7cRIU8jy8fylOtBbmfPdATgNq5piG0';
+  const authResponse = {
+    access_token: oldJwtToken,
+    name: data.name,
+    email: data.email,
+  };
 
   test('Link to login page on page navbar', async function(assert) {
     await visit('/');
@@ -117,12 +122,7 @@ module('Acceptance | login', function(hooks) {
     stubRequest('post', tokenApiUrl, (request) => {
       const requestData = request.json();
       if (requestData.username == data.email && requestData.password == data.password) {
-        const response = {
-          access_token: oldJwtToken,
-          name: data.name,
-          email: data.email,
-        };
-        request.ok(response);
+        request.ok(authResponse);
       } else {
         request.error();
       }
