@@ -19,6 +19,12 @@ module('Acceptance | register', function(hooks) {
 
   const usersApiUrl = ENV.apiNamespace + '/users';
   const tokenApiUrl = ENV.apiNamespace + '/get-token';
+  const data = {
+    name: 'Test Name',
+    email: 'valid@email.format',
+    password: 'Password_$0123áÉíÖüñ',
+  };
+  const oldJwtToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvZ2V0LXRva2VuIiwiaWF0IjoxNTIyNDk3NTIzLCJleHAiOjE1MjI1MDExMjMsIm5iZiI6MTUyMjQ5NzUyMywianRpIjoidmdTNGZXU3hUR2FFem5LQyIsInN1YiI6MzI5LCJwcnYiOiI0MWRmODgzNGYxYjk4ZjcwZWZhNjBhYWVkZWY0MjM0MTM3MDA2OTBjIn0.1FeDFn03i4mmT7cRIU8jy8fylOtBbmfPdATgNq5piG0';
 
   test('Link to register page on page navbar', async function(assert) {
     await visit('/');
@@ -59,7 +65,7 @@ module('Acceptance | register', function(hooks) {
     await click(pts + '[data-test-submit]');
     assert.dom(pts + '[data-test-email] input').isFocused('Validate email format.');
 
-    await fillIn(pts + '[data-test-password] input', 'Some_password');
+    await fillIn(pts + '[data-test-password] input', data.password);
     await fillIn(pts + '[data-test-repeat-password] input', 'Different-Password');
     assert.dom(pts + '[data-test-repeat-password] .paper-input-error')
       .hasText('Passwords do not match.', 'Validate repeat password equal to password.');
@@ -67,12 +73,6 @@ module('Acceptance | register', function(hooks) {
 
   test('Submit form - Error', async function(assert) {
     await visit('/register');
-
-    const data = {
-      name: 'Test Name',
-      email: 'valid@email.format',
-      password: 'Password_$0123áÉíÖüñ',
-    };
 
     // "pts": "parent test selector"
     const pts = '[data-test-register-form] ';
@@ -153,11 +153,6 @@ module('Acceptance | register', function(hooks) {
   test('Submit form - Success', async function(assert) {
     await visit('/register');
 
-    const data = {
-      name: 'Test Name',
-      email: 'valid@email.format',
-      password: 'Password_$0123áÉíÖüñ',
-    };
     const accessToken = 'Example_token$';
 
     // "pts": "parent test selector"
@@ -183,7 +178,7 @@ module('Acceptance | register', function(hooks) {
     });
     stubRequest('post', tokenApiUrl, (request) => {
       const response = {
-        access_token: accessToken,
+        access_token: oldJwtToken,
         name: data.name,
         email: data.email,
       };
@@ -197,7 +192,7 @@ module('Acceptance | register', function(hooks) {
     await click(pts + '[data-test-submit]');
     const session = currentSession();
     assert.notOk($.isEmptyObject(session.get('data.authenticated')), 'User authenticated.');
-    assert.equal(session.get('data.authenticated.access_token'), accessToken, 'Access token stored in session.');
+    assert.equal(session.get('data.authenticated.access_token'), oldJwtToken, 'Access JWT token stored in session.');
     assert.equal(session.get('data.authenticated.name'), data.name, 'User name stored in session.');
     assert.equal(session.get('data.authenticated.email'), data.email, 'User email stored in session.');
     assert.equal(currentURL(), '/register-confirmation', 'Redirection to register confirmation page after register.');
@@ -211,5 +206,11 @@ module('Acceptance | register', function(hooks) {
 
     await visit('/register');
     assert.equal(currentURL(), '/', 'Register page not available when user is logged in. Redirection to index.');
+  });
+
+  test('Register confirmation page not available if not logged in', async function(assert) {
+    await visit('/register-confirmation');
+
+    assert.equal(currentURL(), '/login', 'Visit register confirmation page logged out redirects to login page.');
   });
 });
