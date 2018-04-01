@@ -6,7 +6,7 @@ export default Component.extend({
 
   session: service('session'),
 
-  userName: computed('firstName', 'lastName', function() {
+  userName: computed('session.data.authenticated.userName', function() {
     return this.get('session.data.authenticated.userName');
   }),
 

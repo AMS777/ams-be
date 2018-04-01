@@ -3,7 +3,7 @@ import { visit, currentURL, click, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import FakeServer, { stubRequest } from 'ember-cli-fake-server';
 import ENV from '../../config/environment';
-import { authenticateSession } from 'ember-simple-auth/test-support';
+import { authenticateSession, currentSession } from 'ember-simple-auth/test-support';
 
 module('Acceptance | settings', function(hooks) {
   setupApplicationTest(hooks);
@@ -13,6 +13,11 @@ module('Acceptance | settings', function(hooks) {
     name: 'Test Name',
     email: 'valid@email.format',
     password: 'Password_$0123áÉíÖüñ',
+  };
+  const updatedData = {
+    name: 'Updated Test Name',
+    email: 'updated.valid@email.format',
+    password: 'Updated-Password_$0123áÉíÖüñ',
   };
   const oldJwtToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvZ2V0LXRva2VuIiwiaWF0IjoxNTIyNDk3NTIzLCJleHAiOjE1MjI1MDExMjMsIm5iZiI6MTUyMjQ5NzUyMywianRpIjoidmdTNGZXU3hUR2FFem5LQyIsInN1YiI6MzI5LCJwcnYiOiI0MWRmODgzNGYxYjk4ZjcwZWZhNjBhYWVkZWY0MjM0MTM3MDA2OTBjIn0.1FeDFn03i4mmT7cRIU8jy8fylOtBbmfPdATgNq5piG0';
   const auth2Response = {
@@ -86,5 +91,36 @@ module('Acceptance | settings', function(hooks) {
     assert.dom(pts + '[data-test-email] input').hasValue(data.email, 'Email field has user email.');
     assert.dom(pts + '[data-test-password] input').hasNoValue('Password field is empty.');
     assert.dom(pts + '[data-test-repeat-password] input').hasNoValue('Repeat password field is empty.');
+  });
+
+  test('Submit form - Success', async function(assert) {
+    await authenticateSession(auth2Response);
+    await visit('/settings');
+
+    // "pts": "parent test selector"
+    const pts = '[data-test-user-account-form] ';
+
+    stubRequest('patch', usersApiUrl + '/' + auth2Response.userId, (request) => {
+      const requestData = request.json().data;
+      if (requestData.type == 'users' && requestData.attributes.name == updatedData.name
+        && requestData.attributes.email == updatedData.email
+        && requestData.attributes.password == updatedData.password
+      ) {
+        request.noContent();
+      } else {
+        request.error();
+      }
+    });
+    await fillIn(pts + '[data-test-name] input', updatedData.name);
+    await fillIn(pts + '[data-test-email] input', updatedData.email);
+    await fillIn(pts + '[data-test-password] input', updatedData.password);
+    await fillIn(pts + '[data-test-repeat-password] input', updatedData.password);
+    await click(pts + '[data-test-submit]');
+    const session = currentSession();
+    assert.equal(session.get('data.authenticated.access_token'), oldJwtToken, 'Access JWT token unchanged in session.');
+    assert.equal(session.get('data.authenticated.userId'), auth2Response.userId, 'User id unchanged in session.');
+    assert.equal(session.get('data.authenticated.userName'), updatedData.name, 'User name updated in session.');
+    assert.dom('[data-test-page-navbar] [data-test-settings-link]')
+      .hasText(updatedData.name, 'User name on page navbar updated.');
   });
 });

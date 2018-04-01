@@ -9,10 +9,11 @@ export default Route.extend(AuthenticatedRouteMixin, {
   authenticationRoute: 'login',
 
   model() {
+    const userId = this.get('session.data.authenticated.userId');
     // findRecord() always makes a call to the server, no matter if the record
     // is already loaded on the store
-    if ( ! this.store.hasRecordForId('user', this.get('session.data.authenticated.userId'))) {
-      return this.store.findRecord('user', this.get('session.data.authenticated.userId'));
+    if ( ! this.store.hasRecordForId('user', userId)) {
+      return this.store.findRecord('user', userId);
     }
   },
 });
