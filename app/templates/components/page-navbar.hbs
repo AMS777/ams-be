@@ -6,7 +6,8 @@
     {{/link-to}}
     <span class="flex"></span>
     {{#if session.isAuthenticated}}
-        {{paper-button label="Logout" onClick=(action 'invalidateSession') data-test-logout-link=true}}
+      {{paper-link userName "settings" data-test-settings-link=true}}
+      {{paper-button label="Logout" onClick=(action 'invalidateSession') data-test-logout-link=true}}
     {{else}}
       {{paper-link "Register" "register" raised=true data-test-register-link=true}}
       {{paper-link "Login" "login" raised=true data-test-login-link=true}}

@@ -158,8 +158,6 @@ module('Acceptance | register', function(hooks) {
   test('Submit form - Success', async function(assert) {
     await visit('/register');
 
-    const accessToken = 'Example_token$';
-
     // "pts": "parent test selector"
     const pts = '[data-test-register-form] ';
 
@@ -184,7 +182,6 @@ module('Acceptance | register', function(hooks) {
     stubRequest('post', tokenApiUrl, (request) => {
       request.ok(authResponse);
     });
-
     await fillIn(pts + '[data-test-name] input', data.name);
     await fillIn(pts + '[data-test-email] input', data.email);
     await fillIn(pts + '[data-test-password] input', data.password);
