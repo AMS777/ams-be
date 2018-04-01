@@ -27,3 +27,12 @@ h1 {
 button[type=submit] {
   align-self: center;
 }
+
+md-input-container .hint {
+	position: absolute;
+	bottom: 7px;
+	font-size: 12px;
+	line-height: 14px;
+	transition: all .3s cubic-bezier(.55,0,.55,.2);
+	color: grey;
+}

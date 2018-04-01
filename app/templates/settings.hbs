@@ -9,9 +9,10 @@
   {{form.input label="Email" type="email" value=(get model "email")
     onChange=(action (mut (get model "email"))) icon="email"
     errors=model.validations.attrs.email.messages data-test-email=true}}
-  {{form.input label="Password" type="password" value=(get model "password")
-    onChange=(action (mut (get model "password"))) icon="lock"
-    data-test-password=true}}
+  {{#form.input label="Password" type="password" value=(get model "password")
+    onChange=(action (mut (get model "password"))) icon="lock" data-test-password=true}}
+    <div class="hint">(Leave empty to not change)</div>
+  {{/form.input}}
   {{form.input label="Repeat password" type="password" value=(get model "repeatPassword")
     onChange=(action (mut (get model "repeatPassword"))) icon="lock"
     errors=model.validations.attrs.repeatPassword.messages data-test-repeat-password=true}}
