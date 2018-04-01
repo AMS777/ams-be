@@ -18,14 +18,20 @@ module('Acceptance | login', function(hooks) {
   });
 
   const tokenApiUrl = ENV.apiNamespace + '/get-token';
+  const data = {
+    name: 'Test Name',
+    email: 'valid@email.format',
+    password: 'Password_$0123áÉíÖüñ',
+  };
+  const oldJwtToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvZ2V0LXRva2VuIiwiaWF0IjoxNTIyNDk3NTIzLCJleHAiOjE1MjI1MDExMjMsIm5iZiI6MTUyMjQ5NzUyMywianRpIjoidmdTNGZXU3hUR2FFem5LQyIsInN1YiI6MzI5LCJwcnYiOiI0MWRmODgzNGYxYjk4ZjcwZWZhNjBhYWVkZWY0MjM0MTM3MDA2OTBjIn0.1FeDFn03i4mmT7cRIU8jy8fylOtBbmfPdATgNq5piG0';
 
   test('Link to login page on page navbar', async function(assert) {
     await visit('/');
 
     assert.dom('[data-test-page-navbar] [data-test-login-link]')
       .exists('Link to login page exists on page navbar.');
-    await click('[data-test-page-navbar] [data-test-register-link]');
-    assert.equal(currentURL(), '/register', 'Link to login page on page navbar redirects to login page.');
+    await click('[data-test-page-navbar] [data-test-login-link]');
+    assert.equal(currentURL(), '/login', 'Link to login page on page navbar redirects to login page.');
   });
 
   test('Form exists', async function(assert) {
@@ -58,12 +64,6 @@ module('Acceptance | login', function(hooks) {
 
   test('Submit form - Error', async function(assert) {
     await visit('/login');
-
-    const data = {
-      name: 'Test Name',
-      email: 'valid@email.format',
-      password: 'Password_$0123áÉíÖüñ',
-    };
 
     // "pts": "parent test selector"
     const pts = '[data-test-login-form] ';
@@ -111,13 +111,6 @@ module('Acceptance | login', function(hooks) {
   test('Submit form - Successful', async function(assert) {
     await visit('/login');
 
-    const data = {
-      name: 'Test Name',
-      email: 'valid@email.format',
-      password: 'Password_$0123áÉíÖüñ',
-    };
-    const accessToken = 'Example_token$';
-
     // "pts": "parent test selector"
     let pts = '[data-test-login-form] ';
 
@@ -125,7 +118,7 @@ module('Acceptance | login', function(hooks) {
       const requestData = request.json();
       if (requestData.username == data.email && requestData.password == data.password) {
         const response = {
-          access_token: accessToken,
+          access_token: oldJwtToken,
           name: data.name,
           email: data.email,
         };
@@ -139,7 +132,7 @@ module('Acceptance | login', function(hooks) {
     await click(pts + '[data-test-submit]');
     const session = currentSession();
     assert.notOk($.isEmptyObject(session.get('data.authenticated')), 'User authenticated.');
-    assert.equal(session.get('data.authenticated.access_token'), accessToken, 'Access token stored in session.');
+    assert.equal(session.get('data.authenticated.access_token'), oldJwtToken, 'Access JWT token stored in session.');
     assert.equal(session.get('data.authenticated.name'), data.name, 'User name stored in session.');
     assert.equal(session.get('data.authenticated.email'), data.email, 'User email stored in session.');
     assert.equal(currentURL(), '/', 'Index page after login.');
