@@ -49,6 +49,7 @@ module('Acceptance | login', function(hooks) {
     assert.dom(pts + '[data-test-email]').exists('Form has email field.');
     assert.dom(pts + '[data-test-password]').exists('Form has password field.');
     assert.dom(pts + '[data-test-submit]').exists('Form has submit button.');
+    assert.dom(pts + '[data-test-submit]').hasText('Login', 'Submit button caption.');
   });
 
   test('Validate form', async function(assert) {

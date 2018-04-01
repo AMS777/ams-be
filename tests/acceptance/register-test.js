@@ -52,6 +52,7 @@ module('Acceptance | register', function(hooks) {
     assert.dom(pts + '[data-test-password]').exists('Form has password field.');
     assert.dom(pts + '[data-test-repeat-password]').exists('Form has repeat password field.');
     assert.dom(pts + '[data-test-submit]').exists('Form has submit button.');
+    assert.dom(pts + '[data-test-submit]').hasText('Register', 'Submit button caption.');
   });
 
   test('Validate form', async function(assert) {

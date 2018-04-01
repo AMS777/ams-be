@@ -1,8 +1,17 @@
 import DS from 'ember-data';
-import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import ENV from '../config/environment';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
-  authorizer: 'authorizer:oauth2',
+export default DS.JSONAPIAdapter.extend({
+
+  session: service('session'),
+
   namespace: ENV.apiNamespace,
+
+  headers: computed('session.authToken', function() {
+    return {
+      'Authorization': 'Bearer ' + this.get('session.data.authenticated.access_token'),
+    };
+  }),
 });

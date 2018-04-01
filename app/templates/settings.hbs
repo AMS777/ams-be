@@ -1,1 +1,33 @@
-{{outlet}}
+
+<h1>User account</h1>
+
+{{#paper-form class="layout-column layout-align-space-around-stretch"
+  onSubmit=(action "submitUserAccountForm") data-test-user-account-form=true as |form|}}
+  {{form.input label="Name" type="text" value=(get model "name")
+    onChange=(action (mut (get model "name"))) icon="person"
+    errors=model.validations.attrs.name.messages data-test-name=true}}
+  {{form.input label="Email" type="email" value=(get model "email")
+    onChange=(action (mut (get model "email"))) icon="email"
+    errors=model.validations.attrs.email.messages data-test-email=true}}
+  {{form.input label="Password" type="password" value=(get model "password")
+    onChange=(action (mut (get model "password"))) icon="lock"
+    errors=model.validations.attrs.password.messages data-test-password=true}}
+  {{form.input label="Repeat password" type="password" value=(get model "repeatPassword")
+    onChange=(action (mut (get model "repeatPassword"))) icon="lock"
+    errors=model.validations.attrs.repeatPassword.messages data-test-repeat-password=true}}
+  {{#form.submit-button raised=true primary=true data-test-submit=true}}
+    Update
+  {{/form.submit-button}}
+{{/paper-form}}
+
+{{#info-dialog showDialog=showDialog_ErrorMessage dialogTitle=errorTitle}}
+  <p>
+    {{errorMessage}}
+  </p>
+  <p>
+    Please try to fix it or try again later.
+  </p>
+  <p>
+    If the problem persists, please contact the administrator.
+  </p>
+{{/info-dialog}}
