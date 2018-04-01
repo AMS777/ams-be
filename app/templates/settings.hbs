@@ -10,7 +10,8 @@
     onChange=(action (mut (get model "email"))) icon="email"
     errors=model.validations.attrs.email.messages data-test-email=true}}
   {{#form.input label="Password" type="password" value=(get model "password")
-    onChange=(action (mut (get model "password"))) icon="lock" data-test-password=true}}
+    onChange=(action (mut (get model "password"))) icon="lock"
+    errors=model.validations.attrs.password.messages data-test-password=true}}
     <div class="hint">(Leave empty to not change)</div>
   {{/form.input}}
   {{form.input label="Repeat password" type="password" value=(get model "repeatPassword")

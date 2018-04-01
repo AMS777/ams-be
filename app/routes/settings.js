@@ -16,4 +16,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
       return this.store.findRecord('user', userId);
     }
   },
+
+  afterModel(resolvedModel) {
+    resolvedModel.set('routeName', 'settings');
+  },
 });

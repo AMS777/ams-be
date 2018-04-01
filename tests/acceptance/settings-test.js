@@ -93,6 +93,31 @@ module('Acceptance | settings', function(hooks) {
     assert.dom(pts + '[data-test-repeat-password] input').hasNoValue('Repeat password field is empty.');
   });
 
+  test('Validate form', async function(assert) {
+    await authenticateSession(auth2Response);
+    await visit('/settings');
+
+    // "pts": "parent test selector"
+    const pts = '[data-test-user-account-form] ';
+
+    await fillIn(pts + '[data-test-name] input', '');
+    await fillIn(pts + '[data-test-email] input', '');
+    await click(pts + '[data-test-submit]');
+    assert.dom(pts + '[data-test-name] .paper-input-error').hasText('Name is required.', 'Validate empty name.');
+    assert.dom(pts + '[data-test-email] .paper-input-error').hasText('Email is required.', 'Validate empty email.');
+    assert.dom(pts + '[data-test-password] .paper-input-error').doesNotExist('Validate password may be empty.');
+
+    await fillIn(pts + '[data-test-email] input', 'invalid-email-format');
+    assert.dom(pts + '[data-test-email] .paper-input-error').hasText('Invalid email.', 'Validate email format.');
+    await click(pts + '[data-test-submit]');
+    assert.dom(pts + '[data-test-email] input').isFocused('Validate email format.');
+
+    await fillIn(pts + '[data-test-password] input', data.password);
+    await fillIn(pts + '[data-test-repeat-password] input', 'Different-Password');
+    assert.dom(pts + '[data-test-repeat-password] .paper-input-error')
+      .hasText('Passwords do not match.', 'Validate repeat password equal to password.');
+  });
+
   test('Submit form - Success', async function(assert) {
     await authenticateSession(auth2Response);
     await visit('/settings');

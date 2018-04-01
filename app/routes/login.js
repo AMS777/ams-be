@@ -14,7 +14,11 @@ export default Route.extend(UnauthenticatedRouteMixin, {
 
     return this.store.createRecord('user');
   },
-  
+
+  afterModel(resolvedModel) {
+    resolvedModel.set('routeName', 'login');
+  },
+
   actions: {
     willTransition() {
       this._super(...arguments);
