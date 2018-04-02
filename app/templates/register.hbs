@@ -15,6 +15,7 @@
   {{form.input label="Repeat password" type="password" value=(get model "repeatPassword")
     onChange=(action (mut (get model "repeatPassword"))) icon="lock"
     errors=model.validations.attrs.repeatPassword.messages data-test-repeat-password=true}}
+  <p>By creating an account you agree to our <br /> terms of service and privacy policy.</p>
   {{#form.submit-button raised=true primary=true data-test-submit=true}}
     Register
   {{/form.submit-button}}
