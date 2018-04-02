@@ -14,9 +14,9 @@
   {{/form.submit-button}}
 {{/paper-form}}
 
-{{#info-dialog showDialog=showDialog_ErrorMessage dialogTitle=errorTitle}}
+{{#info-dialog showDialog=showDialog_Error dialogTitle=dialogTitle titleIcon='error'}}
   <p>
-    {{errorMessage}}
+    {{dialogMessage}}
   </p>
   <p>
     Please try to fix it or try again later.

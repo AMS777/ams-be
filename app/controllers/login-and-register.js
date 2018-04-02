@@ -5,9 +5,9 @@ export default Controller.extend({
 
   session: service('session'),
 
-  showDialog_ErrorMessage: false,
-  errorTitle: '',
-  errorMessage: '',
+  showDialog_Error: false,
+  dialogTitle: '',
+  dialogMessage: '',
 
   actions: {
     submitLoginForm() {
@@ -29,16 +29,16 @@ export default Controller.extend({
         // only first error message is shown, multiple error messages not
         // expected often
         this.setProperties({
-          'errorTitle': reason.errors[0].title,
-          'errorMessage': reason.errors[0].detail,
+          'dialogTitle': reason.errors[0].title,
+          'dialogMessage': reason.errors[0].detail,
         });
       } catch (e) {
         this.setProperties({
-          'errorTitle': 'Register Error',
-          'errorMessage': 'The user account cannot be registered.',
+          'dialogTitle': 'Register Error',
+          'dialogMessage': 'The user account cannot be registered.',
         });
       }
-      this.set('showDialog_ErrorMessage', true);
+      this.set('showDialog_Error', true);
     });
   },
 
@@ -53,23 +53,23 @@ export default Controller.extend({
         // only first error message is shown, multiple error messages not
         // expected often
         this.setProperties({
-          'errorTitle': reason.errors[0].title,
-          'errorMessage': reason.errors[0].detail,
+          'dialogTitle': reason.errors[0].title,
+          'dialogMessage': reason.errors[0].detail,
         });
       } catch (e) {
         // "reason.error_description": OAuth 2.0 error format
         if (reason.error_title) {
-          this.set('errorTitle', reason.error_title);
+          this.set('dialogTitle', reason.error_title);
         } else {
-          this.set('errorTitle', 'Login Error');
+          this.set('dialogTitle', 'Login Error');
         }
         if (reason.error_description) {
-          this.set('errorMessage', reason.error_description);
+          this.set('dialogMessage', reason.error_description);
         } else {
-          this.set('errorMessage', 'The user account cannot be logged in.');
+          this.set('dialogMessage', 'The user account cannot be logged in.');
         }
       }
-      this.set('showDialog_ErrorMessage', true);
+      this.set('showDialog_Error', true);
     });
   },
 });
