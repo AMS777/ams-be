@@ -5,6 +5,7 @@ import FakeServer, { stubRequest } from 'ember-cli-fake-server';
 import { currentSession } from 'ember-simple-auth/test-support';
 import $ from 'jquery';
 import ENV from '../../config/environment';
+import Ember from 'ember';
 
 module('Acceptance | login', function(hooks) {
   setupApplicationTest(hooks);
@@ -29,6 +30,28 @@ module('Acceptance | login', function(hooks) {
     name: data.name,
     email: data.email,
   };
+
+  function getJsonFromRequest(request) {
+    let json = {};
+    if (request.requestBody) {
+      // nested try...catch statements to avoid complexity checking the content
+      // type from the headers, as key and value may have multiple formats:
+      // - Key: 'content-type', 'Content-Type'.
+      // - Value: 'application/json', 'application/vnd.api+json'.
+      try {
+        // 'Content-Type': 'application/json'
+        json = JSON.parse(request.requestBody);
+      } catch (e) {
+        try {
+          // 'Content-Type': 'application/x-www-form-urlencoded'
+          json = JSON.parse('{"' + decodeURIComponent(request.requestBody.replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"')) + '"}');
+        } catch (e) {
+          Ember.Logger.warn(`[FakeServer] Failed to parse json from request.requestBody "${request.requestBody}" (error: ${e})`);
+        }
+      }
+    }
+    return json;
+  }
 
   test('Link to login page on page navbar', async function(assert) {
     await visit('/');
@@ -121,7 +144,7 @@ module('Acceptance | login', function(hooks) {
     let pts = '[data-test-login-form] ';
 
     stubRequest('post', tokenApiUrl, (request) => {
-      const requestData = request.json();
+      const requestData = getJsonFromRequest(request);
       if (requestData.username == data.email && requestData.password == data.password) {
         request.ok(authResponse);
       } else {
