@@ -36,9 +36,9 @@ export default Controller.extend(Validations, {
   email: '',
   message: '',
 
-  showDialog_ErrorMessage: false,
-  errorTitle: '',
-  errorMessage: '',
+  showDialog_Error: false,
+  dialogTitle: '',
+  dialogMessage: '',
 
   actions: {
     submitContactMessage() {
@@ -73,16 +73,16 @@ export default Controller.extend(Validations, {
         // only first error message is shown, multiple error messages not
         // expected often
         this.setProperties({
-          'errorTitle': payload.errors[0].title,
-          'errorMessage': payload.errors[0].detail,
+          'dialogTitle': payload.errors[0].title,
+          'dialogMessage': payload.errors[0].detail,
         });
       } catch (e) {
         this.setProperties({
-          'errorTitle': 'Contact Message Error',
-          'errorMessage': 'The contact message cannot be sent.',
+          'dialogTitle': 'Contact Message Error',
+          'dialogMessage': 'The contact message cannot be sent.',
         });
       }
-      this.set('showDialog_ErrorMessage', true);
+      this.set('showDialog_Error', true);
     });
   },
 });
