@@ -195,6 +195,8 @@ module('Acceptance | register', function(hooks) {
     assert.equal(session.get('data.authenticated.email'), data.email, 'User email stored in session.');
     assert.equal(currentURL(), '/register-confirmation', 'Redirection to register confirmation page after register.');
 
+    assert.dom('[data-test-register-confirmation-message]')
+      .exists('There is a confirmation message on the register confirmation page.');
     assert.dom('[data-test-link-to-homepage-on-register-confirmation-page]')
       .exists('There is a link to homepage on the register confirmation page.');
     await click('[data-test-link-to-homepage-on-register-confirmation-page]');

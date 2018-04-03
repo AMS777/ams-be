@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 export default Controller.extend({
 
   session: service('session'),
+  ajax: service(),
 
   showDialog_Error: false,
   showDialog_ResetPassword: false,
@@ -17,9 +18,8 @@ export default Controller.extend({
     submitRegisterForm() {
       this.handleSubmitRegisterForm();
     },
-    resetPassword() {
-//      this.handleSubmitRegisterForm();
-        this.set('showDialog_ResetPassword', false);
+    submitResetPasswordForm() {
+      this.handleSubmitResetPasswordForm();
     },
     showResetPasswordDialog() {
       this.set('showDialog_ResetPassword', true);
@@ -27,30 +27,6 @@ export default Controller.extend({
     closeResetPasswordDialog() {
       this.set('showDialog_ResetPassword', false);
     },
-  },
-
-  handleSubmitRegisterForm() {
-
-    this.get('model').save().then(() => {
-      this.authenticate().then(() => {
-        this.transitionToRoute('register-confirmation');
-      });
-    }).catch((reason) => {
-      try {
-        // only first error message is shown, multiple error messages not
-        // expected often
-        this.setProperties({
-          'dialogTitle': reason.errors[0].title,
-          'dialogMessage': reason.errors[0].detail,
-        });
-      } catch (e) {
-        this.setProperties({
-          'dialogTitle': 'Register Error',
-          'dialogMessage': 'The user account cannot be registered.',
-        });
-      }
-      this.set('showDialog_Error', true);
-    });
   },
 
   authenticate() {
@@ -79,6 +55,65 @@ export default Controller.extend({
         } else {
           this.set('dialogMessage', 'The user account cannot be logged in.');
         }
+      }
+      this.set('showDialog_Error', true);
+    });
+  },
+
+  handleSubmitRegisterForm() {
+
+    this.get('model').save().then(() => {
+      this.authenticate().then(() => {
+        this.transitionToRoute('register-confirmation');
+      });
+    }).catch((reason) => {
+      try {
+        // only first error message is shown, multiple error messages not
+        // expected often
+        this.setProperties({
+          'dialogTitle': reason.errors[0].title,
+          'dialogMessage': reason.errors[0].detail,
+        });
+      } catch (e) {
+        this.setProperties({
+          'dialogTitle': 'Register Error',
+          'dialogMessage': 'The user account cannot be registered.',
+        });
+      }
+      this.set('showDialog_Error', true);
+    });
+  },
+
+  handleSubmitResetPasswordForm() {
+
+    const jsonApi = { data: {
+      type: 'users',
+      attributes: {
+        email: this.get('model.email'),
+      }
+    }};
+
+    this.get('ajax').post('/request-reset-password', {
+      data: jsonApi,
+      dataType: 'json',
+      contentType: 'application/json; charset=utf-8',
+    }).then(() => {
+      this.set('email', '');
+      this.transitionToRoute('request-reset-password-confirmation');
+    }).catch(({ payload }) => {
+      this.set('showDialog_ResetPassword', false);
+      try {
+        // only first error message is shown, multiple error messages not
+        // expected often
+        this.setProperties({
+          'dialogTitle': payload.errors[0].title,
+          'dialogMessage': payload.errors[0].detail,
+        });
+      } catch (e) {
+        this.setProperties({
+          'dialogTitle': 'Reset Password Error',
+          'dialogMessage': 'The reset password email cannot be sent.',
+        });
       }
       this.set('showDialog_Error', true);
     });

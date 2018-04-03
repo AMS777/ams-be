@@ -16,6 +16,7 @@ Router.map(function() {
   this.route('register-confirmation');
   this.route('contact-confirmation');
   this.route('settings');
+  this.route('request-reset-password-confirmation');
 });
 
 export default Router;

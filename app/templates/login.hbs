@@ -42,7 +42,7 @@
       {{/paper-toolbar}}
 
       {{#paper-form class="layout-column layout-align-space-around-stretch"
-        onSubmit=(action "resetPassword") as |form|}}
+        onSubmit=(action "submitResetPasswordForm") as |form|}}
         {{#paper-dialog-content}}
             <p>
               Type the email of your account to reset your password:

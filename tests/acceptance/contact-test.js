@@ -151,9 +151,11 @@ module('Acceptance | contact', function(hooks) {
     await click(pts + '[data-test-submit]');
     assert.equal(currentURL(), '/contact-confirmation',
       'Redirection to contact confirmation page after submitting message.');
+    assert.dom('[data-test-contact-confirmation-message]')
+      .exists('There is a confirmation message on the contact confirmation page.');
     assert.dom('[data-test-link-to-homepage-on-contact-confirmation-page]')
       .exists('There is a link to homepage on the contact confirmation page.');
-    
+
     await click('[data-test-link-to-homepage-on-contact-confirmation-page]');
     assert.equal(currentURL(), '/',
       'Redirection to homepage after clicking link to homepage on contact confirmation page.');
