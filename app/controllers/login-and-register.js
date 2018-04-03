@@ -6,6 +6,7 @@ export default Controller.extend({
   session: service('session'),
 
   showDialog_Error: false,
+  showDialog_ResetPassword: false,
   dialogTitle: '',
   dialogMessage: '',
 
@@ -15,6 +16,16 @@ export default Controller.extend({
     },
     submitRegisterForm() {
       this.handleSubmitRegisterForm();
+    },
+    resetPassword() {
+//      this.handleSubmitRegisterForm();
+        this.set('showDialog_ResetPassword', false);
+    },
+    showResetPasswordDialog() {
+      this.set('showDialog_ResetPassword', true);
+    },
+    closeResetPasswordDialog() {
+      this.set('showDialog_ResetPassword', false);
     },
   },
 

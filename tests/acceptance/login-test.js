@@ -96,7 +96,7 @@ module('Acceptance | login', function(hooks) {
 
     // "pts": "parent test selector"
     const pts = '[data-test-login-form] ';
-    const sDialog = 'md-dialog';
+    const sDialog = 'md-dialog'; // 'paper-dialog' element does not accept attributes ('[data-test...]')
     const sDialogToolbar = sDialog + ' md-toolbar';
     const sDialogContent = sDialog + ' md-dialog-content';
     const sDialogCloseButton = sDialogToolbar + ' button';

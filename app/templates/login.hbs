@@ -4,15 +4,18 @@
 {{#paper-form class="layout-column layout-align-space-around-stretch"
   onSubmit=(action "submitLoginForm") data-test-login-form=true as |form|}}
   {{form.input label="Email" type="email" value=(get model "email")
-    onChange=(action (mut (get model "email"))) icon="email"
+    onChange=(action (mut (get model "email"))) icon="email" autofocus="autofocus"
     errors=model.validations.attrs.email.messages data-test-email=true}}
   {{form.input label="Password" type="password" value=(get model "password")
     onChange=(action (mut (get model "password"))) icon="lock"
     errors=model.validations.attrs.password.messages data-test-password=true}}
-  {{#form.submit-button raised=true primary=true data-test-submit=true}}
-    Login
-  {{/form.submit-button}}
+  {{form.submit-button label="Login" raised=true primary=true data-test-submit=true}}
 {{/paper-form}}
+
+{{#paper-button class="reset-password-button"
+  onClick=(action "showResetPasswordDialog") data-test-reset-password-button=true}}
+  If you don't remember your password <br /> click here to reset it.
+{{/paper-button}}
 
 {{#info-dialog showDialog=showDialog_Error dialogTitle=dialogTitle titleIcon='error'}}
   <p>
@@ -25,3 +28,40 @@
     If the problem persists, please contact the administrator.
   </p>
 {{/info-dialog}}
+
+{{#if showDialog_ResetPassword}}
+    {{#paper-dialog class="flex-77"}}
+      {{#paper-toolbar}}
+        {{#paper-toolbar-tools}}
+          {{dialog-title dialogTitle="Reset Password" titleIcon="question"}}
+          <span class="flex"></span>
+          {{#paper-button iconButton=true onClick=(action "closeResetPasswordDialog" "cancel")}}
+            {{paper-icon icon="close"}}
+          {{/paper-button}}
+        {{/paper-toolbar-tools}}
+      {{/paper-toolbar}}
+
+      {{#paper-form class="layout-column layout-align-space-around-stretch"
+        onSubmit=(action "resetPassword") as |form|}}
+        {{#paper-dialog-content}}
+            <p>
+              Type the email of your account to reset your password:
+            </p>
+            <p>
+              {{form.input label="Email" type="email" value=(get model "email")
+                onChange=(action (mut (get model "email"))) icon="email" autofocus="autofocus"
+                errors=model.validations.attrs.email.messages
+                data-test-reset-password-email=true}}
+            </p>
+        {{/paper-dialog-content}}
+
+        {{#paper-dialog-actions class="layout-row"}}
+          <span class="flex"></span>
+          {{paper-button label="Cancel" onClick=(action "closeResetPasswordDialog")
+            data-test-reset-password-dialog-cancel-button=true}}
+          {{form.submit-button label="Reset password" data-test-reset-password-dialog-ok-button=true}}
+        {{/paper-dialog-actions}}
+      {{/paper-form}}
+
+    {{/paper-dialog}}
+{{/if}}
