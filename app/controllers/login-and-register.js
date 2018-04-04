@@ -18,8 +18,8 @@ export default Controller.extend({
     submitRegisterForm() {
       this.handleSubmitRegisterForm();
     },
-    submitResetPasswordForm() {
-      this.handleSubmitResetPasswordForm();
+    submitRequestResetPasswordForm() {
+      this.handleSubmitRequestResetPasswordForm();
     },
     showResetPasswordDialog() {
       this.set('showDialog_ResetPassword', true);
@@ -84,7 +84,7 @@ export default Controller.extend({
     });
   },
 
-  handleSubmitResetPasswordForm() {
+  handleSubmitRequestResetPasswordForm() {
 
     const jsonApi = { data: {
       type: 'users',
