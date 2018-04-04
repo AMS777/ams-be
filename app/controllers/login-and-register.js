@@ -7,7 +7,7 @@ export default Controller.extend({
   ajax: service(),
 
   showDialog_Error: false,
-  showDialog_ResetPassword: false,
+  showDialog_RequestResetPassword: false,
   dialogTitle: '',
   dialogMessage: '',
 
@@ -21,11 +21,11 @@ export default Controller.extend({
     submitRequestResetPasswordForm() {
       this.handleSubmitRequestResetPasswordForm();
     },
-    showResetPasswordDialog() {
-      this.set('showDialog_ResetPassword', true);
+    showRequestResetPasswordDialog() {
+      this.set('showDialog_RequestResetPassword', true);
     },
-    closeResetPasswordDialog() {
-      this.set('showDialog_ResetPassword', false);
+    closeRequestResetPasswordDialog() {
+      this.set('showDialog_RequestResetPassword', false);
     },
   },
 
@@ -101,7 +101,7 @@ export default Controller.extend({
       this.set('email', '');
       this.transitionToRoute('request-reset-password-confirmation');
     }).catch(({ payload }) => {
-      this.set('showDialog_ResetPassword', false);
+      this.set('showDialog_RequestResetPassword', false);
       try {
         // only first error message is shown, multiple error messages not
         // expected often
@@ -111,8 +111,8 @@ export default Controller.extend({
         });
       } catch (e) {
         this.setProperties({
-          'dialogTitle': 'Reset Password Error',
-          'dialogMessage': 'The reset password email cannot be sent.',
+          'dialogTitle': 'Request Reset Password Error',
+          'dialogMessage': 'The request reset password cannot be processed.',
         });
       }
       this.set('showDialog_Error', true);

@@ -13,7 +13,7 @@
 {{/paper-form}}
 
 {{#paper-button class="request-reset-password-button"
-  onClick=(action "showResetPasswordDialog") data-test-request-reset-password-button=true}}
+  onClick=(action "showRequestResetPasswordDialog") data-test-request-reset-password-button=true}}
   If you don't remember your password <br /> click here to request to reset it.
 {{/paper-button}}
 
@@ -29,13 +29,13 @@
   </p>
 {{/info-dialog}}
 
-{{#if showDialog_ResetPassword}}
+{{#if showDialog_RequestResetPassword}}
     {{#paper-dialog class="flex-77"}}
       {{#paper-toolbar}}
         {{#paper-toolbar-tools}}
           {{dialog-title dialogTitle="Request Reset Password" titleIcon="question"}}
           <span class="flex"></span>
-          {{#paper-button iconButton=true onClick=(action "closeResetPasswordDialog" "cancel")}}
+          {{#paper-button iconButton=true onClick=(action "closeRequestResetPasswordDialog")}}
             {{paper-icon icon="close"}}
           {{/paper-button}}
         {{/paper-toolbar-tools}}
@@ -62,7 +62,7 @@
 
         {{#paper-dialog-actions class="layout-row"}}
           <span class="flex"></span>
-          {{paper-button label="Cancel" onClick=(action "closeResetPasswordDialog")
+          {{paper-button label="Cancel" onClick=(action "closeRequestResetPasswordDialog")
             data-test-request-reset-password-dialog-cancel-button=true}}
           {{form.submit-button label="Request reset password" data-test-request-reset-password-dialog-ok-button=true}}
         {{/paper-dialog-actions}}
