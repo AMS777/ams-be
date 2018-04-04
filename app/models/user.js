@@ -4,7 +4,6 @@ import ENV from '../config/environment';
 import { computed } from '@ember/object';
 
 const Validations = buildValidations({
-
   name: validator('presence', {
     presence: true,
     ignoreBlank: true,

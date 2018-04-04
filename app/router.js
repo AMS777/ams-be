@@ -17,6 +17,8 @@ Router.map(function() {
   this.route('contact-confirmation');
   this.route('settings');
   this.route('request-reset-password-confirmation');
+  this.route('reset-password', { path: '/reset-password/:resetPasswordToken' });
+  this.route('reset-password-confirmation');
 });
 
 export default Router;
