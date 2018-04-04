@@ -52,7 +52,7 @@ export default Controller.extend(Validations, {
     const jsonApi = { data: {
       'type': 'resetPassword',
       'attributes': {
-        'resetPasswordToken': this.get('resetPasswordToken'),
+        'reset_password_token': this.get('resetPasswordToken'),
         'password': this.get('password'),
       }
     }};

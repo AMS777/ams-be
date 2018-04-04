@@ -152,18 +152,18 @@ module('Acceptance | reset password', function(hooks) {
 
     stubRequest('post', resetPasswordApiUrl, (request) => {
       request.error({"errors":[{
-        "source": {"parameter":"email"},
-        "title": 'Token Error',
-        "detail": 'The reset password token is not valid.'
+        "source": {"parameter":"token"},
+        "title": 'Reset Password Token Error',
+        "detail": 'The reset password token is invalid.'
       }],"jsonapi": {"version":"1.0"}});
     });
     await fillIn(pts + '[data-test-password] input', data.password);
     await fillIn(pts + '[data-test-repeat-password] input', data.password);
     await click(pts + '[data-test-submit]');
     assert.dom(sDialog).exists('Error message dialog shown.');
-    assert.dom(sDialogToolbar).includesText('Token Error', 'Error message dialog title.');
+    assert.dom(sDialogToolbar).includesText('Reset Password Token Error', 'Error message dialog title.');
     assert.dom(sDialogContent).includesText(
-      'The reset password token is not valid.',
+      'The reset password token is invalid.',
       'Error message message dialog.'
     );
     await click(sDialogCloseButton);
@@ -207,7 +207,7 @@ module('Acceptance | reset password', function(hooks) {
 
     stubRequest('post', resetPasswordApiUrl, (request) => {
       const requestData = request.json().data;
-      if (requestData.attributes.resetPasswordToken == resetPasswordToken
+      if (requestData.attributes.reset_password_token == resetPasswordToken
         && requestData.attributes.password == data.password
       ) {
         request.noContent();
