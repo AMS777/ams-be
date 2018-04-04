@@ -18,7 +18,7 @@
       max-height: 100%;
     }
   }
-  
+
   a.md-button.paper-link.md-raised.active[disabled] {
      color: rgba(255, 255, 255, 0.87) !important;
   }
@@ -53,9 +53,20 @@ md-input-container {
   }
 }
 
-.reset-password-button {
+.request-reset-password-button {
   margin-top: 1.7em;
   font-weight: normal;
   line-height: 1.7em;
   text-transform: none;
+}
+
+.request-reset-password-form {
+
+  md-input-container {
+    margin-bottom: 0;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
 }

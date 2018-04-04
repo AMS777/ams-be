@@ -12,9 +12,9 @@
   {{form.submit-button label="Login" raised=true primary=true data-test-submit=true}}
 {{/paper-form}}
 
-{{#paper-button class="reset-password-button"
+{{#paper-button class="request-reset-password-button"
   onClick=(action "showResetPasswordDialog") data-test-reset-password-button=true}}
-  If you don't remember your password <br /> click here to reset it.
+  If you don't remember your password <br /> click here to request to reset it.
 {{/paper-button}}
 
 {{#info-dialog showDialog=showDialog_Error dialogTitle=dialogTitle titleIcon='error'}}
@@ -33,7 +33,7 @@
     {{#paper-dialog class="flex-77"}}
       {{#paper-toolbar}}
         {{#paper-toolbar-tools}}
-          {{dialog-title dialogTitle="Reset Password" titleIcon="question"}}
+          {{dialog-title dialogTitle="Request Reset Password" titleIcon="question"}}
           <span class="flex"></span>
           {{#paper-button iconButton=true onClick=(action "closeResetPasswordDialog" "cancel")}}
             {{paper-icon icon="close"}}
@@ -41,11 +41,11 @@
         {{/paper-toolbar-tools}}
       {{/paper-toolbar}}
 
-      {{#paper-form class="layout-column layout-align-space-around-stretch"
+      {{#paper-form class="request-reset-password-form layout-column layout-align-space-around-stretch"
         onSubmit=(action "submitResetPasswordForm") as |form|}}
         {{#paper-dialog-content}}
             <p>
-              Type the email of your account to reset your password:
+              Type in the email of your account:
             </p>
             <p>
               {{form.input label="Email" type="email" value=(get model "email")
@@ -53,13 +53,18 @@
                 errors=model.validations.attrs.email.messages
                 data-test-reset-password-email=true}}
             </p>
+            <p>
+              An email with instructions to reset
+              <br />
+              your password will be sent to you.
+            </p>
         {{/paper-dialog-content}}
 
         {{#paper-dialog-actions class="layout-row"}}
           <span class="flex"></span>
           {{paper-button label="Cancel" onClick=(action "closeResetPasswordDialog")
             data-test-reset-password-dialog-cancel-button=true}}
-          {{form.submit-button label="Reset password" data-test-reset-password-dialog-ok-button=true}}
+          {{form.submit-button label="Request reset password" data-test-reset-password-dialog-ok-button=true}}
         {{/paper-dialog-actions}}
       {{/paper-form}}
 
