@@ -16,15 +16,8 @@ module('Acceptance | delete account', function(hooks) {
     userName: 'Test Name',
   };
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(async function() {
     FakeServer.start();
-  });
-
-  hooks.afterEach(function() {
-    FakeServer.stop();
-  });
-
-  test('Delete account option exists on settings page', async function(assert) {
     stubRequest('get', usersApiUrl + '/' + auth2Response.userId, (request) => {
       const jsonApiResponse = { data: {
         type: 'users',
@@ -36,6 +29,13 @@ module('Acceptance | delete account', function(hooks) {
       request.ok(jsonApiResponse);
     });
     await authenticateSession(auth2Response);
+  });
+
+  hooks.afterEach(function() {
+    FakeServer.stop();
+  });
+
+  test('Delete account option exists on settings page', async function(assert) {
     await visit('/settings');
 
     // "pts": "parent test selector"
@@ -50,5 +50,65 @@ module('Acceptance | delete account', function(hooks) {
     assert.dom(pts + '[data-test-delete-account-dialog-ok-button]').hasText('Delete account', 'Ok button caption.');
     await click(pts + '[data-test-delete-account-dialog-cancel-button]');
     assert.dom(pts).doesNotExist('Request reset password dialog closes.');
+  });
+
+  test('Delete account - Error', async function(assert) {
+    await visit('/settings');
+
+    // "pts": "parent test selector"
+    const pts = 'md-dialog '; // 'paper-dialog' element does not accept attributes ('[data-test...]')
+
+    stubRequest('delete', usersApiUrl + '/' + auth2Response.userId, (request) => {
+      request.error({"errors":[{
+        "source": {"parameter":"authorization"},
+        "title": 'Authorization Error',
+        "detail": 'User account cannot be deleted.'
+      }],"jsonapi": {"version":"1.0"}});
+    });
+    await click('[data-test-delete-account-button]');
+    await click(pts + '[data-test-delete-account-dialog-ok-button]');
+    assert.equal(currentURL(), '/settings', 'Stay on settings page.');
+    assert.dom(pts).exists('Error message dialog shown.');
+    assert.dom(pts + ' md-toolbar').includesText('Authorization Error', 'Error message dialog title.');
+    assert.dom(pts + ' md-dialog-content').includesText(
+      'User account cannot be deleted.',
+      'Error message dialog content.'
+    );
+    await click(pts + ' md-toolbar button');
+
+    stubRequest('delete', usersApiUrl + '/' + auth2Response.userId, (request) => {
+      request.error({ errors: {} });
+    });
+    await click('[data-test-delete-account-button]');
+    await click(pts + '[data-test-delete-account-dialog-ok-button]');
+    assert.dom(pts).exists('Generic error dialog shown.');
+    assert.dom(pts + ' md-toolbar').includesText('Delete Account Error', 'Generic error dialog title.');
+    assert.dom(pts + ' md-dialog-content').includesText(
+      'The account cannot be deleted.',
+      'Generic error dialog message.'
+    );
+    await click(pts + ' md-toolbar button');
+  });
+
+  test('Delete account - Success', async function(assert) {
+    await visit('/settings');
+
+    // "pts": "parent test selector"
+    const pts = 'md-dialog '; // 'paper-dialog' element does not accept attributes ('[data-test...]')
+
+    stubRequest('delete', usersApiUrl + '/' + auth2Response.userId, (request) => {
+      request.noContent();
+    });
+    await click('[data-test-delete-account-button]');
+    await click(pts + '[data-test-delete-account-dialog-ok-button]');
+    assert.equal(currentURL(), '/delete-account-confirmation',
+      'Redirection to delete account confirmation page.');
+    assert.dom('[data-test-delete-account-confirmation-message]')
+      .exists('There is a confirmation message on the delete account confirmation page.');
+    assert.dom('[data-test-link-to-homepage-on-delete-account-confirmation-page]')
+      .exists('There is a link to homepage on the delete account confirmation page.');
+    await click('[data-test-link-to-homepage-on-delete-account-confirmation-page]');
+    assert.equal(currentURL(), '/',
+      'Redirection to homepage after clicking link to homepage on delete account confirmation page.');
   });
 });

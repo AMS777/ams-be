@@ -91,7 +91,7 @@ module('Acceptance | contact', function(hooks) {
     assert.dom(sDialogToolbar).includesText('Email Error', 'Error message dialog title.');
     assert.dom(sDialogContent).includesText(
       'Address in mailbox given [invalid-email] does not comply with RFC 2822, 3.6.2.',
-      'Error message message dialog.'
+      'Error message dialog content.'
     );
     await click(sDialogCloseButton);
 

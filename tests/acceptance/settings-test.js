@@ -35,6 +35,7 @@ module('Acceptance | settings', function(hooks) {
         id: auth2Response.userId,
         attributes: {
           name: data.name,
+          email: data.email,
         },
       }};
       request.ok(jsonApiResponse);

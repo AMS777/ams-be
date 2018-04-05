@@ -70,11 +70,12 @@ module('Acceptance | reset password', function(hooks) {
     });
     await fillIn(pts + '[data-test-request-reset-password-email] input', data.email);
     await click(pts + '[data-test-request-reset-password-dialog-ok-button]');
+    assert.equal(currentURL(), '/login', 'Stay on login page.');
     assert.dom(pts).exists('Error message dialog shown.');
     assert.dom(pts + ' md-toolbar').includesText('Email Error', 'Error message dialog title.');
     assert.dom(pts + ' md-dialog-content').includesText(
       'The email "' + data.email + '" does not exist.',
-      'Error message message dialog.'
+      'Error message dialog content.'
     );
     await click(pts + ' md-toolbar button');
   });
@@ -97,7 +98,7 @@ module('Acceptance | reset password', function(hooks) {
     await fillIn(pts + '[data-test-request-reset-password-email] input', data.email);
     await click(pts + '[data-test-request-reset-password-dialog-ok-button]');
     assert.equal(currentURL(), '/request-reset-password-confirmation',
-      'Redirection to email to request reset password confirmation page.');
+      'Redirection to request reset password confirmation page.');
     assert.dom('[data-test-request-reset-password-confirmation-message]')
       .exists('There is a confirmation message on the request reset password confirmation page.');
     assert.dom('[data-test-link-to-homepage-on-request-reset-password-confirmation-page]')
@@ -165,7 +166,7 @@ module('Acceptance | reset password', function(hooks) {
     assert.dom(sDialogToolbar).includesText('Reset Password Token Error', 'Error message dialog title.');
     assert.dom(sDialogContent).includesText(
       'The reset password token is invalid.',
-      'Error message message dialog.'
+      'Error message dialog content.'
     );
     await click(sDialogCloseButton);
 
@@ -220,7 +221,7 @@ module('Acceptance | reset password', function(hooks) {
     await fillIn(pts + '[data-test-repeat-password] input', data.password);
     await click(pts + '[data-test-submit]');
     assert.equal(currentURL(), '/reset-password-confirmation',
-      'Redirection to email to reset password confirmation page.');
+      'Redirection to reset password confirmation page.');
     assert.dom('[data-test-reset-password-confirmation-message]')
       .exists('There is a confirmation message on the reset password confirmation page.');
     assert.dom('[data-test-link-to-homepage-on-reset-password-confirmation-page]')

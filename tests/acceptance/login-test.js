@@ -118,7 +118,7 @@ module('Acceptance | login', function(hooks) {
     assert.dom(sDialogToolbar).includesText('Email Error', 'Error message dialog title.');
     assert.dom(sDialogContent).includesText(
       'The email "' + data.email + '" does not exist.',
-      'Error message message dialog.'
+      'Error message dialog content.'
     );
     await click(sDialogCloseButton);
 

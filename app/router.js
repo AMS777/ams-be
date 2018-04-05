@@ -20,6 +20,7 @@ Router.map(function() {
   this.route('reset-password', { path: '/reset-password/:reset_password_token' });
   this.route('reset-password-confirmation');
   this.route('verify-email', { path: '/verify-email/:verify_email_token' });
+  this.route('delete-account-confirmation');
 });
 
 export default Router;

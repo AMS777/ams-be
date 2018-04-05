@@ -17,7 +17,7 @@ export default Controller.extend({
       this.handleSubmitUserAccountForm();
     },
     deleteAccount() {
-//      this.handleSubmitUserAccountForm();
+      this.handleDeleteAccount();
     },
     showDeleteAccountConfirmationDialog() {
       this.set('showDialog_DeleteAccountConfirmation', true);
@@ -64,5 +64,28 @@ export default Controller.extend({
         this.set('showDialog_Error', true);
       });
     }
+  },
+
+  handleDeleteAccount() {
+
+    this.get('model').destroyRecord().then(() => {
+      this.transitionToRoute('delete-account-confirmation');
+    }).catch((reason) => {
+      this.set('showDialog_DeleteAccountConfirmation', false);
+      try {
+        // only first error message is shown, multiple error messages not
+        // expected often
+        this.setProperties({
+          'dialogTitle': reason.errors[0].title,
+          'dialogMessage': reason.errors[0].detail,
+        });
+      } catch (e) {
+        this.setProperties({
+          'dialogTitle': 'Delete Account Error',
+          'dialogMessage': 'The account cannot be deleted.',
+        });
+      }
+      this.set('showDialog_Error', true);
+    });
   },
 });
