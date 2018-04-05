@@ -31,9 +31,10 @@ module('Acceptance | reset password', function(hooks) {
     assert.dom('[data-test-request-reset-password-button]').exists('Button exists.');
     await click('[data-test-request-reset-password-button]');
     assert.dom(pts).exists('Request reset password dialog opens.');
-    assert.dom(pts + '[data-test-request-reset-password-email] input').exists('Email field exits on dialog.');
-    assert.dom(pts + '[data-test-request-reset-password-dialog-cancel-button]').exists('Cancel button exits on dialog.');
-    assert.dom(pts + '[data-test-request-reset-password-dialog-ok-button]').exists('Ok button exits on dialog.');
+    assert.dom(pts + ' md-toolbar').includesText('Request Reset Password', 'Dialog title.');
+    assert.dom(pts + '[data-test-request-reset-password-email] input').exists('Email field exists on dialog.');
+    assert.dom(pts + '[data-test-request-reset-password-dialog-cancel-button]').exists('Cancel button exists on dialog.');
+    assert.dom(pts + '[data-test-request-reset-password-dialog-ok-button]').exists('Ok button exists on dialog.');
     await click(pts + '[data-test-request-reset-password-dialog-cancel-button]');
     assert.dom(pts).doesNotExist('Request reset password dialog closes.');
   });

@@ -8,12 +8,22 @@ export default Controller.extend({
   showDialog_Success: false,
   showDialog_Error: false,
   showDialog_Info: false,
+  showDialog_DeleteAccountConfirmation: false,
   dialogTitle: '',
   dialogMessage: '',
 
   actions: {
     submitUserAccountForm() {
       this.handleSubmitUserAccountForm();
+    },
+    deleteAccount() {
+//      this.handleSubmitUserAccountForm();
+    },
+    showDeleteAccountConfirmationDialog() {
+      this.set('showDialog_DeleteAccountConfirmation', true);
+    },
+    closeDeleteAccountConfirmationDialog() {
+      this.set('showDialog_DeleteAccountConfirmation', false);
     },
   },
 

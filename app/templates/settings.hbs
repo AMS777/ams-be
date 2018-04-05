@@ -22,6 +22,11 @@
   {{/form.submit-button}}
 {{/paper-form}}
 
+{{#paper-button class="discreet-button"
+  onClick=(action "showDeleteAccountConfirmationDialog") data-test-delete-account-button=true}}
+  If you want to delete your account click here.
+{{/paper-button}}
+
 {{#info-dialog showDialog=showDialog_Error dialogTitle=dialogTitle titleIcon='error'}}
   <p>
     {{dialogMessage}}
@@ -45,3 +50,32 @@
     {{dialogMessage}}
   </p>
 {{/info-dialog}}
+
+{{#if showDialog_DeleteAccountConfirmation}}
+    {{#paper-dialog class="flex-77"}}
+      {{#paper-toolbar}}
+        {{#paper-toolbar-tools}}
+          {{dialog-title dialogTitle="Delete Account Confirmation" titleIcon="question"}}
+          <span class="flex"></span>
+          {{#paper-button iconButton=true onClick=(action "closeDeleteAccountConfirmationDialog")}}
+            {{paper-icon icon="close"}}
+          {{/paper-button}}
+        {{/paper-toolbar-tools}}
+      {{/paper-toolbar}}
+
+      {{#paper-dialog-content}}
+        <p data-test-delete-account-confirmation-message="true">
+          Are you sure you want to delete your account?
+        </p>
+      {{/paper-dialog-content}}
+
+      {{#paper-dialog-actions class="layout-row"}}
+        <span class="flex"></span>
+        {{paper-button label="Cancel" onClick=(action "closeDeleteAccountConfirmationDialog")
+          data-test-delete-account-dialog-cancel-button=true}}
+        {{paper-button label="Delete account" onClick=(action "deleteAccount")
+          data-test-delete-account-dialog-ok-button=true}}
+      {{/paper-dialog-actions}}
+
+    {{/paper-dialog}}
+{{/if}}

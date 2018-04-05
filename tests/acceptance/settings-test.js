@@ -32,10 +32,9 @@ module('Acceptance | settings', function(hooks) {
     stubRequest('get', usersApiUrl + '/' + auth2Response.userId, (request) => {
       const jsonApiResponse = { data: {
         type: 'users',
-        id: 1,
+        id: auth2Response.userId,
         attributes: {
           name: data.name,
-          email: data.email,
         },
       }};
       request.ok(jsonApiResponse);

@@ -12,7 +12,7 @@
   {{form.submit-button label="Login" raised=true primary=true data-test-submit=true}}
 {{/paper-form}}
 
-{{#paper-button class="request-reset-password-button"
+{{#paper-button class="discreet-button"
   onClick=(action "showRequestResetPasswordDialog") data-test-request-reset-password-button=true}}
   If you don't remember your password <br /> click here to request to reset it.
 {{/paper-button}}
@@ -44,20 +44,20 @@
       {{#paper-form class="request-reset-password-form layout-column layout-align-space-around-stretch"
         onSubmit=(action "submitRequestResetPasswordForm") as |form|}}
         {{#paper-dialog-content}}
-            <p>
-              Type in the email of your account:
-            </p>
-            <p>
-              {{form.input label="Email" type="email" value=(get model "email")
-                onChange=(action (mut (get model "email"))) icon="email" autofocus="autofocus"
-                errors=model.validations.attrs.email.messages
-                data-test-request-reset-password-email=true}}
-            </p>
-            <p>
-              An email with instructions to reset
-              <br />
-              your password will be sent to you.
-            </p>
+          <p>
+            Type in the email of your account:
+          </p>
+          <p>
+            {{form.input label="Email" type="email" value=(get model "email")
+              onChange=(action (mut (get model "email"))) icon="email" autofocus="autofocus"
+              errors=model.validations.attrs.email.messages
+              data-test-request-reset-password-email=true}}
+          </p>
+          <p>
+            An email with instructions to reset
+            <br />
+            your password will be sent to you.
+          </p>
         {{/paper-dialog-content}}
 
         {{#paper-dialog-actions class="layout-row"}}
