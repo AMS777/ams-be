@@ -1,0 +1,22 @@
+
+{{#if emailVerified}}
+  <h1>Verify Email Confirmation</h1>
+
+  <p data-test-verify-email-confirmation-message=true>
+    Your email has been verfied successfully.
+  </p>
+{{else}}
+  <h1>Verify Email Error</h1>
+
+  <p data-test-verify-email-error-message=true>
+    Your email has not been verified.
+  </p>
+  <p>
+    Either the provided token is invalid
+    <br />
+    or this email has already been verified.
+  </p>
+{{/if}}
+
+{{paper-link "Go to homepage" "index" raised=true
+  data-test-link-to-homepage-on-verify-email-page=true}}
