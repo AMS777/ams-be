@@ -10,6 +10,7 @@ module('Acceptance | settings', function(hooks) {
 
   const usersApiUrl = ENV.apiNamespace + '/users';
   const data = {
+    userId: 1,
     name: 'Test Name',
     email: 'valid@email.format',
     password: 'Password_$0123áÉíÖüñ',
@@ -22,17 +23,17 @@ module('Acceptance | settings', function(hooks) {
   const oldJwtToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvZ2V0LXRva2VuIiwiaWF0IjoxNTIyNDk3NTIzLCJleHAiOjE1MjI1MDExMjMsIm5iZiI6MTUyMjQ5NzUyMywianRpIjoidmdTNGZXU3hUR2FFem5LQyIsInN1YiI6MzI5LCJwcnYiOiI0MWRmODgzNGYxYjk4ZjcwZWZhNjBhYWVkZWY0MjM0MTM3MDA2OTBjIn0.1FeDFn03i4mmT7cRIU8jy8fylOtBbmfPdATgNq5piG0';
   const auth2Response = {
     access_token: oldJwtToken,
-    userId: 1,
+    userId: data.userId,
     userName: data.name,
   };
 
   hooks.beforeEach(function() {
     FakeServer.start();
 
-    stubRequest('get', usersApiUrl + '/' + auth2Response.userId, (request) => {
+    stubRequest('get', usersApiUrl + '/' + data.userId, (request) => {
       const jsonApiResponse = { data: {
         type: 'users',
-        id: auth2Response.userId,
+        id: data.userId,
         attributes: {
           name: data.name,
           email: data.email,
@@ -125,7 +126,7 @@ module('Acceptance | settings', function(hooks) {
     // "pts": "parent test selector"
     const pts = '[data-test-user-account-form] ';
 
-    stubRequest('patch', usersApiUrl + '/' + auth2Response.userId, (request) => {
+    stubRequest('patch', usersApiUrl + '/' + data.userId, (request) => {
       const requestData = request.json().data;
       if (requestData.type == 'users' && requestData.attributes.name == updatedData.name
         && requestData.attributes.email == updatedData.email
@@ -143,7 +144,7 @@ module('Acceptance | settings', function(hooks) {
     await click(pts + '[data-test-submit]');
     const session = currentSession();
     assert.equal(session.get('data.authenticated.access_token'), oldJwtToken, 'Access JWT token unchanged in session.');
-    assert.equal(session.get('data.authenticated.userId'), auth2Response.userId, 'User id unchanged in session.');
+    assert.equal(session.get('data.authenticated.userId'), data.userId, 'User id unchanged in session.');
     assert.equal(session.get('data.authenticated.userName'), updatedData.name, 'User name updated in session.');
     assert.dom('[data-test-page-navbar] [data-test-settings-link]')
       .hasText(updatedData.name, 'User name on page navbar updated.');

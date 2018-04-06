@@ -20,6 +20,7 @@ module('Acceptance | login', function(hooks) {
 
   const tokenApiUrl = ENV.apiNamespace + '/get-token';
   const data = {
+    userId: 1,
     name: 'Test Name',
     email: 'valid@email.format',
     password: 'Password_$0123áÉíÖüñ',
@@ -27,7 +28,7 @@ module('Acceptance | login', function(hooks) {
   const oldJwtToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvZ2V0LXRva2VuIiwiaWF0IjoxNTIyNDk3NTIzLCJleHAiOjE1MjI1MDExMjMsIm5iZiI6MTUyMjQ5NzUyMywianRpIjoidmdTNGZXU3hUR2FFem5LQyIsInN1YiI6MzI5LCJwcnYiOiI0MWRmODgzNGYxYjk4ZjcwZWZhNjBhYWVkZWY0MjM0MTM3MDA2OTBjIn0.1FeDFn03i4mmT7cRIU8jy8fylOtBbmfPdATgNq5piG0';
   const auth2Response = {
     access_token: oldJwtToken,
-    userId: 1,
+    userId: data.userId,
     name: data.name,
   };
 
@@ -157,8 +158,8 @@ module('Acceptance | login', function(hooks) {
     const session = currentSession();
     assert.notOk($.isEmptyObject(session.get('data.authenticated')), 'User authenticated.');
     assert.equal(session.get('data.authenticated.access_token'), oldJwtToken, 'Access JWT token stored in session.');
-    assert.equal(session.get('data.authenticated.userId'), auth2Response.userId, 'User id stored in session.');
-    assert.equal(session.get('data.authenticated.name'), auth2Response.name, 'User name stored in session.');
+    assert.equal(session.get('data.authenticated.userId'), data.userId, 'User id stored in session.');
+    assert.equal(session.get('data.authenticated.name'), data.name, 'User name stored in session.');
     assert.equal(currentURL(), '/', 'Index page after login.');
 
     pts = '[data-test-page-navbar] ';
