@@ -1,21 +1,38 @@
 # ams-be
 
-**Disclaimer: This project is under development, intended functionality it's
-not yet finished.**
+This project is a quick-start boilerplate of the Javascript framework 
+[Ember.js](https://www.emberjs.com/) to start a frontend project with the common
+functionality out of the box like main page layout, user management and forms
+validation.
 
-This project is a quick-start boilerplate of the Javascript framework Ember.js to
-start a frontend project with some useful functionality out of the box like:
-- Header-body-footer page layout.
-- User register with validation.
-- User login with validation.
-- User reset password with validation.
+It's recomended for API projects that implement the JSON API specification (http://jsonapi.org/).
+
+**ams-be is a frontend project that matches the [backend project ams-bl](https://github.com/AMS777/ams-bl) 
+developed with the PHP micro-framework [Lumen](https://lumen.laravel.com/)** 
+(though other backend may be used).
+
+## Features
+
+- User register.
+- User login.
+- User password reset with token.
+- Update user account.
+- Delete user account.
+- User email verification on register.
 - Contact form page.
+- Forms validation.
+- API error handling.
+- Material Design styling.
+- Header-body-footer page layout.
 - FAQ, Privacy and Terms pages and page footer links.
 
-Recomended for API projects that implement the JSON API specification (http://jsonapi.org/).
+## Technologies
 
-**This frontend project is matched with a backend project on PHP micro-framework
-Lumen** (yet on development).
+- TDD. This project uses [Test Driven Development](https://www.agilealliance.org/glossary/tdd/)
+as development methodology.
+- JSON API. API request and responses follow JSON API v1.0 specification:
+http://jsonapi.org/format/
+- JWT. Authentication with JSON Web Tokens: https://tools.ietf.org/html/rfc7519
 
 ## Addons
 
@@ -39,11 +56,6 @@ Ember.js applications.
 fields comparison...)
   https://github.com/offirgolan/ember-cp-validations
 
-## Features
-
-- TDD. This project uses [Test Driven Development](https://www.agilealliance.org/glossary/tdd/)
-as development methodology.
-
 ## Prerequisites
 
 You will need the following things properly installed on your computer.
@@ -55,7 +67,7 @@ You will need the following things properly installed on your computer.
 
 ## Installation
 
-* `git clone <repository-url>` this repository
+* `git clone https://github.com/AMS777/ams-be.git`
 * `cd ams-be`
 * `npm install`
 
