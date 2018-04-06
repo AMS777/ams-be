@@ -61,10 +61,24 @@ export default Controller.extend({
   },
 
   handleSubmitRegisterForm() {
-
+    
     this.get('model').save().then(() => {
       this.authenticate().then(() => {
         this.transitionToRoute('register-confirmation');
+      }).catch((reason) => {
+        try {
+          // only first error message is shown, multiple error messages not
+          // expected often
+          this.setProperties({
+            'dialogTitle': reason.errors[0].title,
+            'dialogMessage': reason.errors[0].detail,
+          });
+        } catch (e) {
+          this.setProperties({
+            'dialogTitle': 'Login Error',
+            'dialogMessage': 'The user account cannot be logged in after register.',
+          });
+        }
       });
     }).catch((reason) => {
       try {
