@@ -9,7 +9,7 @@ export default DS.JSONAPIAdapter.extend({
 
   namespace: ENV.apiNamespace,
 
-  headers: computed('session.data.authenticated', function() {
+  headers: computed('session.data.authenticated.access_token', function() {
     return {
       'Authorization': 'Bearer ' + this.get('session.data.authenticated.access_token'),
     };
