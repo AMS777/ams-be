@@ -30,7 +30,7 @@ developed with the PHP micro-framework [Lumen](https://lumen.laravel.com/)**
 
 - TDD. This project uses [Test Driven Development](https://www.agilealliance.org/glossary/tdd/)
 as development methodology.
-- JSON API. API request and responses follow JSON API v1.0 specification:
+- JSON API. API requests and responses follow the JSON API v1.0 specification:
 http://jsonapi.org/format/
 - JWT. Authentication with JSON Web Tokens: https://tools.ietf.org/html/rfc7519
 
