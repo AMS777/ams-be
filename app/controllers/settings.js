@@ -69,6 +69,7 @@ export default Controller.extend({
   handleDeleteAccount() {
 
     this.get('model').destroyRecord().then(() => {
+      this.get('session').set('urlAfterSessionInvalidation', '/delete-account-confirmation');
       this.get('session').invalidate().then(() => {
         this.transitionToRoute('delete-account-confirmation');
       }).catch(() => {
