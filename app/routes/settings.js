@@ -14,6 +14,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
     // is already loaded on the store
     if ( ! this.store.hasRecordForId('user', userId)) {
       return this.store.findRecord('user', userId);
+    } else {
+      return this.store.peekRecord('user', userId);
     }
   },
 
