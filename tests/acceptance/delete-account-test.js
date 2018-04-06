@@ -68,6 +68,11 @@ module('Acceptance | delete account', function(hooks) {
     await click('[data-test-delete-account-button]');
     await click(pts + '[data-test-delete-account-dialog-ok-button]');
     assert.equal(currentURL(), '/settings', 'Stay on settings page.');
+    const session = currentSession();
+    assert.notOk($.isEmptyObject(session.get('data.authenticated')), 'User authenticated.');
+    assert.equal(session.get('data.authenticated.access_token'), oldJwtToken, 'Access JWT token stored in session.');
+    assert.equal(session.get('data.authenticated.userId'), auth2Response.userId, 'User id stored in session.');
+    assert.equal(session.get('data.authenticated.name'), auth2Response.name, 'User name stored in session.');
     assert.dom(pts).exists('Error message dialog shown.');
     assert.dom(pts + ' md-toolbar').includesText('Authorization Error', 'Error message dialog title.');
     assert.dom(pts + ' md-dialog-content').includesText(
@@ -103,6 +108,8 @@ module('Acceptance | delete account', function(hooks) {
     await click(pts + '[data-test-delete-account-dialog-ok-button]');
     assert.equal(currentURL(), '/delete-account-confirmation',
       'Redirection to delete account confirmation page.');
+    const session = currentSession();
+    assert.ok($.isEmptyObject(session.get('data.authenticated')), 'User unauthenticated.');
     assert.dom('[data-test-delete-account-confirmation-message]')
       .exists('There is a confirmation message on the delete account confirmation page.');
     assert.dom('[data-test-link-to-homepage-on-delete-account-confirmation-page]')

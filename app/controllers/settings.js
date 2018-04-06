@@ -69,7 +69,15 @@ export default Controller.extend({
   handleDeleteAccount() {
 
     this.get('model').destroyRecord().then(() => {
-      this.transitionToRoute('delete-account-confirmation');
+      this.get('session').invalidate().then(() => {
+        this.transitionToRoute('delete-account-confirmation');
+      }).catch(() => {
+        this.setProperties({
+          'dialogTitle': 'Logout Error',
+          'dialogMessage': 'The account has been deleted but it has not been logged out.',
+          'showDialog_Error': true,
+        });
+      });
     }).catch((reason) => {
       this.set('showDialog_DeleteAccountConfirmation', false);
       try {
