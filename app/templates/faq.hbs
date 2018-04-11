@@ -13,6 +13,53 @@
 <article>
   <h3>How to install ams-be?</h3>
   <p>
-    Download or fork the project and take it as the start your own project.
+    Download or fork the project and take it as the starting point of your own project.
+  </p>
+</article>
+
+<article>
+  <h3>Can ams-be frontend be used only with ams-bl as backend?</h3>
+  <p>
+    No, the frontend project ams-be can be used with any API backend project
+    that follows the JSON API specification.
+  </p>
+</article>
+
+<article>
+  <h3>May I see the emails without sending them?</h3>
+  <p>
+    Yes, emails may be previewed on browsers on following routes:
+  </p>
+  <ul>
+    <li>
+      <a href="http://ams-bel.mas.gallery/api/view-email-on-browser/contact-message" target="_blank">
+        Contact message email</a>.
+    </li>
+    <li>
+      <a href="http://ams-bel.mas.gallery/api/view-email-on-browser/register-confirmation" target="_blank">
+        Register confirmation email</a>.
+    </li>
+    <li>
+      <a href="http://ams-bel.mas.gallery/api/view-email-on-browser/request-reset-password" target="_blank">
+        Request reset password email</a>.
+    </li>
+    <li>
+      <a href="http://ams-bel.mas.gallery/api/view-email-on-browser/delete-account-confirmation" target="_blank">
+        Delete account confirmation email</a>.
+    </li>
+  </ul>
+  <p>
+    Please note that the email routes are available for testing purposes but
+    on production environments they should be removed from
+    <a href="https://github.com/AMS777/ams-bl/blob/master/routes/web.php" target="_blank">
+      <code>routes/web.php</code></a>,
+    or at least commented if you expect to be needing them often.
+  </p>
+</article>
+
+<article>
+  <h3>May I use the projects ams-be and ams-bl in my commercial projects?</h3>
+  <p>
+    For sure, they have MIT License.
   </p>
 </article>

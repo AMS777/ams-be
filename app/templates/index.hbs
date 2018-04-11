@@ -1,4 +1,342 @@
 
-<h1>ams-be</h1>
+<h1>ams-bel</h1>
+<p>
+   <strong>Ember.js and Lumen JSON API quick-start boilerplate</strong> with common
+   functionality like user management, authentication and email notifications.
+</p>
 
-<h2>Ember.js boilerplate.</h2>
+<h2>Ember.js and Lumen boilerplate</h2>
+<p>
+  This website is a demo of the open source projects <strong>ams-be</strong>
+  and <strong>ams-bl</strong> using the project architecture of
+  <strong>ams-bel</strong>:
+</p>
+<ul>
+  <li><a href="https://github.com/AMS777/ams-be" target="_blank">https://github.com/AMS777/ams-be</a></li>
+  <li><a href="https://github.com/AMS777/ams-bl" target="_blank">https://github.com/AMS777/ams-bl</a></li>
+  <li><a href="https://github.com/AMS777/ams-bel" target="_blank">https://github.com/AMS777/ams-bel</a></li>
+</ul>
+<p>
+  <strong>ams-be</strong> is a quick-start boilerplate of the Javascript framework
+  <a href="https://www.emberjs.com/" target="_blank">Ember.js</a>
+  to start a <strong>frontend project</strong> with the common functionality out of the
+  box like main page layout, user management and forms validation.
+</p>
+<p>
+  <strong>ams-bl</strong> is a quick-start boilerplate of the PHP micro-framework
+  <a href="https://lumen.laravel.com/" target="_blank">Lumen</a>
+  to start an <strong>API backend project</strong> with the common functionality out of the
+  box like user management, authentication and email notifications.
+</p>
+<p>
+  It's recomended for API projects that implement the
+  <a href="http://jsonapi.org/" target="_blank">JSON API specification</a>.
+</p>
+<p>
+  <strong>ams-be</strong> is a frontend project that matches the backend project
+  <strong>ams-bl</strong>, though other backend may be used with
+  <strong>ams-be</strong> and other frontend may be used with <strong>ams-bl</strong>.
+</p>
+
+<h2>ams-be</h2>
+
+<h3>Features</h3>
+<ul>
+  <li>User register.</li>
+  <li>User login.</li>
+  <li>User password reset with token.</li>
+  <li>Update user account.</li>
+  <li>Delete user account.</li>
+  <li>User email verification on register.</li>
+  <li>Contact form page.</li>
+  <li>Forms validation.</li>
+  <li>API error handling.</li>
+  <li>Material Design styling.</li>
+  <li>Header-body-footer page layout.</li>
+  <li>FAQ, Privacy and Terms pages and page footer links.</li>
+</ul>
+
+<h3>Technologies</h3>
+<dl>
+  <dt>TDD</dt>
+  <dd>
+    This project uses
+    <a href="https://www.agilealliance.org/glossary/tdd/" target="_blank">Test Driven Development</a>
+    as development methodology.
+  </dd>
+  <dt>JSON API</dt>
+  <dd>
+    API requests and responses follow the
+    <a href="http://jsonapi.org/format/" target="_blank">JSON API v1.0 specification</a>.
+  </dd>
+  <dt>JWT</dt>
+  <dd>
+    Authentication with
+    <a href="https://tools.ietf.org/html/rfc7519" target="_blank">JSON Web Tokens</a>.
+  </dd>
+  <dt>Ember.js 3.0</dt>
+  <dd>
+    This project is developed with the
+    <a href="https://www.emberjs.com/blog/2017/10/03/the-road-to-ember-3-0.html" target="_blank">
+      3.0 version of Ember.js</a>,
+    <a href="https://www.emberjs.com/blog/2018/02/14/ember-3-0-released.html" target="_blank">
+      released on 2018-02-14</a>.
+  </dd>
+</dl>
+
+<h3>Addons</h3>
+<dl>
+  <dt>ember-paper</dt>
+  <dd>
+    Material Design for Ember.js using Ember.js syntax and components.
+    <br />
+    <a href="http://miguelcobain.github.io/ember-paper/" target="_blank">
+      http://miguelcobain.github.io/ember-paper/
+    </a>
+    <dl>
+      <dt>ember-cli-sass</dt>
+      <dd>
+        Installed by ember-paper.
+      </dd>
+    </dl>
+  </dd>
+  <dt>ember-test-selectors</dt>
+  <dd>
+    Removes attributes starting with <code>data-test-</code> from HTML tags
+    in templates for production builds.
+    <br />
+    <a href="https://github.com/simplabs/ember-test-selectors" target="_blank">
+      https://github.com/simplabs/ember-test-selectors
+    </a>
+  </dd>
+  <dt>ember-paper-link</dt>
+  <dd>
+    Extends ember's built in <code>link-to</code> helper and adds
+    <code>paper-button</code> styling and functionality.
+    <br />
+    <a href="https://github.com/Subtletree/ember-paper-link" target="_blank">
+      https://github.com/Subtletree/ember-paper-link
+    </a>
+  </dd>
+  <dt>qunit-dom</dt>
+  <dd>
+    Specific test asserts for DOM elements.
+    <br />
+    <a href="https://github.com/simplabs/qunit-dom" target="_blank">
+      https://github.com/simplabs/qunit-dom
+    </a>
+  </dd>
+  <dt>ember-cli-fake-server</dt>
+  <dd>
+    Makes it extremely simple to stub Ajax requests for testing.
+    <br />
+    <a href="https://github.com/201-created/ember-cli-fake-server" target="_blank">
+      https://github.com/201-created/ember-cli-fake-server
+    </a>
+  </dd>
+  <dt>ember-simple-auth</dt>
+  <dd>
+    A library for implementing authentication and authorization in Ember.js applications.
+    <br />
+    <a href="https://github.com/simplabs/ember-simple-auth" target="_blank">
+      https://github.com/simplabs/ember-simple-auth
+    </a>
+  </dd>
+  <dt>ember-cp-validations</dt>
+  <dd>
+    Elaborate validations (email format, string length, fields comparison...)
+    <br />
+    <a href="https://github.com/offirgolan/ember-cp-validations" target="_blank">
+      https://github.com/offirgolan/ember-cp-validations
+    </a>
+  </dd>
+</dl>
+
+<h2>ams-bl</h2>
+
+<h3>Features</h3>
+<ul>
+  <li>User create, get, update and delete.</li>
+  <li>Authentication token.</li>
+  <li>Authorization to get, update and delete user.</li>
+  <li>User password reset with token.</li>
+  <li>Email confirmation for register and delete.</li>
+  <li>User email verification on register.</li>
+  <li>Contact message email.</li>
+  <li>API request data validation.</li>
+</ul>
+
+<h3>Technologies</h3>
+<dl>
+  <dt>TDD</dt>
+  <dd>
+    This project uses
+    <a href="https://www.agilealliance.org/glossary/tdd/" target="_blank">Test Driven Development</a>
+    as development methodology with unit tests.
+  </dd>
+  <dt>JSON API</dt>
+  <dd>
+    API requests and responses follow the
+    <a href="http://jsonapi.org/format/" target="_blank">JSON API v1.0 specification</a>.
+  </dd>
+  <dt>JWT</dt>
+  <dd>
+    Authentication with
+    <a href="https://tools.ietf.org/html/rfc7519" target="_blank">JSON Web Tokens</a>.
+  </dd>
+  <dt>PHP7.1</dt>
+  <dd>
+    This project uses
+    <a href="http://php.net/manual/en/migration71.new-features.php" target="_blank">PHP 7.1 features</a>.
+  </dd>
+  <dt>MySQL</dt>
+  <dd>
+    <a href="https://lumen.laravel.com/docs/5.6/database#migrations" target="_blank">Database migrations</a>
+    for MySQL.
+  </dd>
+  <dt>Lumen 5.6</dt>
+  <dd>
+    This project is developed with the
+    <a href="https://lumen.laravel.com/docs/5.6/releases#5.6.0" target="_blank">5.6 version of Lumen</a>.
+  </dd>
+</dl>
+
+<h3>Packages</h3>
+<dl>
+  <dt>Flipbox Lumen Generator</dt>
+  <dd>
+    Command line resources generator extension.
+    <br />
+    <a href="https://github.com/flipboxstudio/lumen-generator" target="_blank">
+      https://github.com/flipboxstudio/lumen-generator
+    </a>
+  </dd>
+  <dt>Tobscure JSON-API</dt>
+  <dd>
+    Build objects following the JSON API specification.
+    <br />
+    <a href="https://github.com/tobscure/json-api" target="_blank">https://github.com/tobscure/json-api</a>
+    <br />
+    I haven't found a package that fulfills the complete specification
+    of JSON API, but the Tobscure JSON-API package is pretty clean and easy to use.
+    It lacks some implementations, like JSON API error specification, but I've
+    extended it with custom functions adapted to Lumen that build error objects
+    following the JSON API specification.
+  </dd>
+  <dt>illuminate/mail, guzzlehttp/guzzle</dt>
+  <dd>
+    Emailing functionality.
+    <br />
+    See section <a href="#emailing-functionality">Emailing Functionality</a> below.
+  </dd>
+  <dt>tymondesigns/jwt-auth</dt>
+  <dd>
+    JSON Web Token (JWT) Authentication for Laravel & Lumen.
+    <br />
+    <a href="https://github.com/tymondesigns/jwt-auth" target="_blank">
+      https://github.com/tymondesigns/jwt-auth
+    </a>
+  </dd>
+</dl>
+
+<h3 id="emailing-functionality">Emailing Functionality</h3>
+<p>
+  Lumen does not have emailing functionality. It's one of the features lost when
+  stripping down Laravel to obtain a micro framework.
+</p>
+<p>
+  The steps followed to add emailing functionality are described on:
+</p>
+<p>
+  <a href="https://stackoverflow.com/questions/47124070/easiest-way-to-send-emails-with-lumen-5-4-and-mailgun/47124071#47124071" target="_blank">
+    https://stackoverflow.com/questions/47124070/easiest-way-to-send-emails-with-lumen-5-4-and-mailgun/47124071#47124071
+  </a>
+</p>
+<p>
+  Email sending and exception handling are performed on
+  <a href="https://github.com/AMS777/ams-bl/blob/master/app/Helpers/MailHelper.php" target="_blank">
+    <code>app/Helpers/MailHelper.php</code></a>.
+</p>
+<p>
+  More info on Laravel documentation:
+</p>
+<p>
+  <a href="https://laravel.com/docs/5.6/mail" target="_blank">https://laravel.com/docs/5.6/mail</a>
+</p>
+
+<h4>Checking emails</h4>
+<p>
+  Emails may be previewed on browsers enabling specific routes as you can see on
+  <a href="https://github.com/AMS777/ams-bl/blob/master/routes/web.php" target="_blank">
+    <code>routes/web.php</code></a>.
+</p>
+<p>
+  The email routes are available for testing purposes but on production
+  environments remove them from
+  <a href="https://github.com/AMS777/ams-bl/blob/master/routes/web.php" target="_blank">
+    <code>routes/web.php</code></a>,
+  or at least comment them if you expect to be needing them often.
+</p>
+<p>
+  Email routes:
+</p>
+<ul>
+  <li>
+    <a href="http://ams-bel.mas.gallery/api/view-email-on-browser/contact-message" target="_blank">
+      Contact message email</a>.
+  </li>
+  <li>
+    <a href="http://ams-bel.mas.gallery/api/view-email-on-browser/register-confirmation" target="_blank">
+      Register confirmation email</a>.
+  </li>
+  <li>
+    <a href="http://ams-bel.mas.gallery/api/view-email-on-browser/request-reset-password" target="_blank">
+      Request reset password email</a>.
+  </li>
+  <li>
+    <a href="http://ams-bel.mas.gallery/api/view-email-on-browser/delete-account-confirmation" target="_blank">
+      Delete account confirmation email</a>.
+  </li>
+</ul>
+
+<h4>Testing emails</h4>
+<p>
+  To test the emailing functionality, the mail driver is set to <code>log</code>
+  so that emails are not sent but written on the app log (<code>storage/logs/lumen.log</code>).
+</p>
+<p>
+  Thus, use <code>config(['mail.driver' => 'log']);</code> as you can see on
+  <a href="https://github.com/AMS777/ams-bl/blob/master/tests/MessagingTest.php" target="_blank">
+    <code>tests/MessagingTest.php</code></a>.
+</p>
+
+<h3>Install</h3>
+<p>
+  If you want to reproduce this demo, you have to download or fork the three
+  repositories the demo is based on and take it as the starting point of your
+  own project:
+</p>
+<ul>
+  <li><a href="https://github.com/AMS777/ams-be" target="_blank">https://github.com/AMS777/ams-be</a></li>
+  <li><a href="https://github.com/AMS777/ams-bl" target="_blank">https://github.com/AMS777/ams-bl</a></li>
+  <li><a href="https://github.com/AMS777/ams-bel" target="_blank">https://github.com/AMS777/ams-bel</a></li>
+</ul>
+
+
+<h3>License</h3>
+<p>
+  MIT License for both projects <strong>ams-be</strong> and <strong>ams-bl</strong>.
+  Please see LICENSE files for more information:
+</p>
+<ul>
+  <li>
+    <a href="https://github.com/AMS777/ams-be/blob/master/LICENSE.txt" target="_blank">
+      https://github.com/AMS777/ams-be/blob/master/LICENSE.txt
+    </a>
+  </li>
+  <li>
+    <a href="https://github.com/AMS777/ams-bl/blob/master/LICENSE" target="_blank">
+      https://github.com/AMS777/ams-bl/blob/master/LICENSE
+    </a>
+  </li>
+</ul>
