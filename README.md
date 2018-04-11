@@ -88,7 +88,7 @@ You will need the following things properly installed on your computer.
 Download or fork this project and take it as the starting point of your own project.
 
 
-## Running / Development
+## Run Development Server
 
 * `ember serve`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
@@ -100,12 +100,28 @@ first run the ams-bl server and then run:
 * `ember serve --proxy http://localhost:8000`
 
 
+## Usage
+
+After creating your own project from this one, add your own files to the
+existing ones.
+
+You can modify the existing files on the project you've created. The key
+files are located in:
+
+- `tests/`
+- `app/components/`
+- `app/controllers/`
+- `app/models/`
+- `app/styles/`
+- `app/templates/`
+
+
 ### Code Generators
 
 Make use of the many generators for code, try `ember help generate` for more details
 
 
-### Running Tests
+### Run Tests
 
 * `ember test`
 * `ember test --server`
@@ -117,7 +133,7 @@ Make use of the many generators for code, try `ember help generate` for more det
 * `npm run lint:js -- --fix`
 
 
-### Building
+### Build
 
 * `ember build` (development)
 * `ember build --environment production` (production)
