@@ -87,6 +87,12 @@ You will need the following things properly installed on your computer.
 
 Download or fork this project and take it as the starting point of your own project.
 
+Install NPM packages:
+
+```
+$ npm install
+```
+
 
 ## Run Development Server
 
